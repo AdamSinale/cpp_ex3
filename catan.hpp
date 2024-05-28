@@ -2,6 +2,7 @@
 // MAIL: adam.sinale@gmail.com
 
 #pragma once
+
 #include "player.hpp"
 #include "board.hpp"
 
@@ -9,21 +10,18 @@
 #include <iostream>
 #include <string>
 
-using std::vector;
-using std::cout;
-using std::endl;
-using std::string;
-using std::to_string;
-
 namespace ariel {
     class Catan {
     private:
-        vector<vector<Player>> players;
+        Player p1, p2, p3;
+        Board board;
 
     public:
         Catan(Player p1, Player p2, Player p3);
-        static void ChooseStartingPlayer();
-        static Board getBoard();
-        static void printWinner();
+        ~Catan();
+        void ChooseStartingPlayer();
+        void placeSettelemnt(Player p, unsigned int spot);
+        void placeRoad(Player p, int from, int to);
+        void printWinner();
     };
 }
