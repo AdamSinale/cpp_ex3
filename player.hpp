@@ -18,7 +18,7 @@ using std::to_string;
 namespace ariel {
     class Player {
     private:
-        int id;
+        string color;
         string name;
         int wood = 0;
         int wool = 0;
@@ -29,14 +29,16 @@ namespace ariel {
 
     public:
         Player();
-        Player(string name, int id);
+        Player(string name, string c);
         ~Player();
         string getName(){ return name; }
+        string getColor(){ return color; }
         void rollDice();
         void endTurn();
         void trade(Player to, string give, string get, int amount_give, int amount_get);
         void buyDevelopmentCard();
         void printPoints();
-        bool operator==(Player other){ return this->id == other.id; }
+        bool operator==(Player other){ return this->color == other.color; }
+        bool operator!=(Player other){ return !(*this == other); }
     };
 }

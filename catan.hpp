@@ -13,13 +13,15 @@
 namespace ariel {
     class Catan {
     private:
-        Player p1, p2, p3;
+        vector<Player> players;
+        unsigned int turn = 0;
         Board board;
 
     public:
         Catan(Player p1, Player p2, Player p3);
         ~Catan();
         void ChooseStartingPlayer();
+        void nextTurn();
         void placeSettelemnt(Player p, unsigned int spot);
         void placeRoad(Player p, int from, int to);
         void printWinner();

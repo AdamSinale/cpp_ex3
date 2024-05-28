@@ -8,20 +8,30 @@
 
 namespace ariel {
 
-    Catan::Catan(Player pl1, Player pl2, Player pl3): p1(pl1), p2(pl2), p3(pl3), board(Board()) {}
+    Catan::Catan(Player pl1, Player pl2, Player pl3){
+        this->players = {pl1,pl2,pl3};
+        board = Board();
+        this->board.printBoard();
+    }
     Catan::~Catan(){}
     
     void Catan::ChooseStartingPlayer(){
-        cout << "The stating player is " << p1.getName() << endl;
+        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        std::shuffle(players.begin(), players.end(), std::default_random_engine(seed));
+        this->turn = 0;
+        cout << "The starting player is " << players[turn].getName() << "\n" << endl;
+    }
+    void Catan::nextTurn(){
+        this->turn = (this->turn + 1) % 3;
+        cout << "It's your turn now " << players[turn].getName() << "\n" << endl;
     }
     void Catan::placeSettelemnt(Player p, unsigned int spot){
-        if(p == p1){
-            board.setOwner(spot, 1);
-        } else if(p == p2){
-            board.setOwner(spot, 2);
-        } else if(p == p3){
-            board.setOwner(spot, 3);
+        if(players[turn] != p){
+            throw std::invalid_argument("Wait your turn " + p.getName() + ",\n"
+                 + "It's your turn " + players[turn].getName() + "\n");
         }
+        board.setOwner(spot, p.getColor());
+        this->board.printBoard();
     }
     void Catan::placeRoad(Player p, int from, int to){
 

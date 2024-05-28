@@ -13,37 +13,40 @@ using namespace ariel;
 
 int main()
 {
-    Player p1("Amit", 1);
-    Player p2("Yossi", 2);
-    Player p3("Dana", 3);
+    Player p1("Amit", "\033[31m");
+    Player p2("Yossi", "\033[32m");
+    Player p3("Dana", "\033[0m");
     Catan catan(p1, p2, p3);
-    // // Starting of the game. Every player places two settlements and two roads.
-    // catan.ChooseStartingPlayer();   // should print the name of the starting player, assume it is Amit.
-    // catan.placeSettelemnt(p1, 8);
-    // catan.placeRoad(p1, 8, 13);
+    // Starting of the game. Every player places two settlements and two roads.
+    catan.ChooseStartingPlayer();   // should print the name of the starting player, assume it is Amit.
+    catan.placeSettelemnt(p1, 8);
+    catan.placeRoad(p1, 8, 13);
+    catan.placeSettelemnt(p1, 14);
+    catan.placeRoad(p1, 9, 14); // p1 chooses Forest, hills, Agricultural Land, Desert with numbers 5, 6, 3, 4.
+    
+    catan.nextTurn();
 
-    // catan.placeSettelemnt(p1, 14);
-    // catan.placeRoad(p1, 9, 14); // p1 chooses Forest, hills, Agricultural Land, Desert with numbers 5, 6, 3, 4.
+    catan.placeSettelemnt(p2, 21);
+    catan.placeRoad(p2, 16, 21);
+    try
+    {
+        catan.placeSettelemnt(p3, 8); // p3 tries to place a settlement in the same location as p2.
+    }
+    catch (const std::exception &e)
+    {
+        cout << e.what() << endl;
+    }
+    catan.placeSettelemnt(p2, 17);
+    catan.placeRoad(p2, 16, 22); // p2 chooses Mountains, Pasture Land, and Forest with numbers 4, 9, 5.
+    
+    catan.nextTurn();
 
-    // catan.placeSettelemnt(p2, 21);
-    // catan.placeRoad(p2, 16, 21);
-    // try
-    // {
-    //     catan.placeSettelemnt(p3, 8); // p3 tries to place a settlement in the same location as p2.
-    // }
-    // catch (const std::exception &e)
-    // {
-    //     cout << e.what() << endl;
-    // }
-    // catan.placeSettelemnt(p2, 17);
-    // catan.placeRoad(p2, 16, 22); // p2 chooses Mountains, Pasture Land, and Forest with numbers 4, 9, 5.
+    catan.placeSettelemnt(p3, 29);
+    catan.placeRoad(p3, 29, 35);
+    catan.placeSettelemnt(p3, 36);
+    catan.placeRoad(p3, 30, 36); // p3 chooses Mountains, Pasture Land, Agricultural Land, Pasture Land with numbers 3, 8, 3, 9.
 
-    // catan.placeSettelemnt(p3, 29);
-    // catan.placeRoad(p3, 29, 35);
-    // catan.placeSettelemnt(p3, 36);
-    // catan.placeRoad(p3, 30, 36); // p3 chooses Mountains, Pasture Land, Agricultural Land, Pasture Land with numbers 3, 8, 3, 9.
-
-    // // p1 has wood,bricks, and wheat, p2 has wood, ore, and wool, p3 has ore, wool, wheat.
+    // p1 has wood,bricks, and wheat, p2 has wood, ore, and wool, p3 has ore, wool, wheat.
     // p1.rollDice();                                    // Lets say it's print 4. Then, p2 gets ore from the mountations.
     // catan.placeRoad(p1, {"Forest", "Hills"}, {5, 6}); // p1 continues to build a road.
     // p1.endTurn();                                     // p1 ends his turn.

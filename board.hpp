@@ -8,6 +8,9 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <algorithm> // For std::shuffle
+#include <random>    // For std::default_random_engine
+#include <chrono> 
 
 using std::cout;
 using std::endl;
@@ -23,7 +26,7 @@ namespace ariel {
     public:
         Board();
         ~Board();
-        void setOwner(unsigned int spot, int player){ this->spots[spot].setOwner(player); };
+        void setOwner(unsigned int spot, string color){ this->spots[spot].setOwner(color); };
         void printBoard();
     };
 }

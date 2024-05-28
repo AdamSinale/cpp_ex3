@@ -19,14 +19,13 @@ namespace ariel {
         vector<string> type;
         vector<int> num;
         vector<Spot> neighbors;
-        int owner = 0;
+        string owner = "";
         
     public:
         Spot();
         ~Spot();
         void add_info(vector<string> type, vector<int> num, vector<Spot> neighbors);
-        void setOwner(int p){ if(this->owner==0){this->owner == p;}};
-        void printSpot();
+        void setOwner(string color){ if(this->owner.length() == 0){this->owner = color;} };
         friend std::ostream& operator<<(std::ostream& os, Spot& g);
     };
 }

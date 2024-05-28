@@ -11,7 +11,7 @@ namespace ariel {
     Player::Player() {}
     Player::~Player() {}
     
-    Player::Player(string name, int id) : name(name), id(id) {}
+    Player::Player(string name, string c) : name(name), color(c) {}
     
     void Player::rollDice(){
 

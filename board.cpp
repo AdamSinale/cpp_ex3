@@ -3,9 +3,6 @@
 
 #include "board.hpp"
 
-#include <algorithm> // For std::shuffle
-#include <random>    // For std::default_random_engine
-#include <chrono> 
 
 #define FALSE 0
 #define TRUE 1
@@ -56,27 +53,27 @@ namespace ariel {
         
         spots[16].add_info({types[10],types[11]}, {nums[10],nums[11]}, {spots[11],spots[21],spots[22]});
         spots[17].add_info({types[11],types[12],types[17]}, {nums[11],nums[12],nums[17]}, {spots[22],spots[23],spots[12]});
-        spots[18].add_info({types[12],types[13],types[18]}, {nums[12],nums[13],nums[18]}, {spots[23],spots[24],spots[13]});
+        spots[18].add_info({types[12],types[13],"Desert"}, {nums[12],nums[13],nums[18]}, {spots[23],spots[24],spots[13]});
         spots[19].add_info({types[3],types[13],types[14]}, {nums[3],nums[13],nums[14]}, {spots[24],spots[25],spots[14]});
         spots[20].add_info({types[3],types[4]}, {nums[3],nums[4]}, {spots[25],spots[26],spots[15]});
         
         spots[21].add_info({types[10]}, {nums[10]}, {spots[16],spots[27]});
         spots[22].add_info({types[10],types[11],types[17]}, {nums[10],nums[11],nums[17]}, {spots[16],spots[17],spots[28]});
-        spots[23].add_info({types[12],types[17],types[18]}, {nums[12],nums[17],nums[18]}, {spots[17],spots[18],spots[29]});
-        spots[24].add_info({types[13],types[14],types[18]}, {nums[13],nums[14],nums[18]}, {spots[18],spots[19],spots[30]});
+        spots[23].add_info({types[12],types[17],"Desert"}, {nums[12],nums[17],nums[18]}, {spots[17],spots[18],spots[29]});
+        spots[24].add_info({types[13],types[14],"Desert"}, {nums[13],nums[14],nums[18]}, {spots[18],spots[19],spots[30]});
         spots[25].add_info({types[3],types[14],types[4]}, {nums[3],nums[14],nums[4]}, {spots[19],spots[20],spots[31]});
         spots[26].add_info({types[4]}, {nums[4]}, {spots[20],spots[32]});
         
         spots[27].add_info({types[10]}, {nums[10]}, {spots[33],spots[21]});
         spots[28].add_info({types[9],types[10],types[17]}, {nums[9],nums[10],nums[17]}, {spots[33],spots[34],spots[22]});
-        spots[29].add_info({types[16],types[17],types[18]}, {nums[16],nums[17],nums[18]}, {spots[34],spots[35],spots[23]});
-        spots[30].add_info({types[14],types[15],types[18]}, {nums[14],nums[15],nums[18]}, {spots[35],spots[36],spots[24]});
+        spots[29].add_info({types[16],types[17],"Desert"}, {nums[16],nums[17],nums[18]}, {spots[34],spots[35],spots[23]});
+        spots[30].add_info({types[14],types[15],"Desert"}, {nums[14],nums[15],nums[18]}, {spots[35],spots[36],spots[24]});
         spots[31].add_info({types[4],types[5],types[14]}, {nums[4],nums[5],nums[14]}, {spots[36],spots[37],spots[25]});
         spots[32].add_info({types[4]}, {nums[4]}, {spots[37],spots[26]});
         
         spots[33].add_info({types[9],types[10]}, {nums[9],nums[10]}, {spots[27],spots[38],spots[28]});
         spots[34].add_info({types[9],types[16],types[17]}, {nums[9],nums[16],nums[17]}, {spots[28],spots[29],spots[39]});
-        spots[35].add_info({types[15],types[16],types[18]}, {nums[15],nums[16],nums[18]}, {spots[29],spots[30],spots[40]});
+        spots[35].add_info({types[15],types[16],"Desert"}, {nums[15],nums[16],nums[18]}, {spots[29],spots[30],spots[40]});
         spots[36].add_info({types[5],types[14],types[15]}, {nums[5],nums[14],nums[15]}, {spots[30],spots[31],spots[41]});
         spots[37].add_info({types[4],types[5]}, {nums[4],nums[5]}, {spots[31],spots[32],spots[42]});
         
@@ -103,10 +100,18 @@ namespace ariel {
     Board::~Board(){}
 
     void Board::printBoard(){
-        cout << "   " << endl;
-        cout << "   " << endl;
-        
-        cout << "x     " << spots[21] << "     ";
+        cout << "         " << spots[0] << "     " << spots[1] << "     " << spots[2] << "        \n";
+        cout << "      " << spots[3] << "     " << spots[4] << "     " << spots[5] << "     " << spots[6] << "     \n";
+        cout << "      " << spots[7] << "     " << spots[8] << "     " << spots[9] << "     " << spots[10] << "     \n";
+        cout << "   " << spots[11] << "     " << spots[12] << "     " << spots[13] << "     " << spots[14] << "     " << spots[15] << "  \n";
+        cout << "   " << spots[16] << "     " << spots[17] << "     " << spots[18] << "     " << spots[19] << "     " << spots[20] << "  \n";
+        cout << spots[21] << "     " << spots[22] << "     " << spots[23] << "     " << spots[24] << "     " << spots[25] << "     " << spots[26] << "\n";
+        cout << spots[27] << "     " << spots[28] << "     " << spots[29] << "     " << spots[30] << "     " << spots[31] << "     " << spots[32] << "\n";
+        cout << "   " << spots[33] << "     " << spots[34] << "     " << spots[35] << "     " << spots[36] << "     " << spots[37] << "  \n";
+        cout << "   " << spots[38] << "     " << spots[39] << "     " << spots[40] << "     " << spots[41] << "     " << spots[42] << "  \n";
+        cout << "      " << spots[43] << "     " << spots[44] << "     " << spots[45] << "     " << spots[46] << "     \n";
+        cout << "      " << spots[47] << "     " << spots[48] << "     " << spots[49] << "     " << spots[50] << "     \n";
+        cout << "         " << spots[51] << "     " << spots[52] << "     " << spots[53] << "        \n\n-----------------------------------\n\n";
     }
 
 }

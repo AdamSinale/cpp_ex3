@@ -22,7 +22,7 @@ namespace ariel {
     }
     
     std::ostream& operator<<(std::ostream& os, Spot& g) {
-        os << RED << "X" << RESET;
+        os << g.owner << "X" << RESET;
         return os;
     }
 }
