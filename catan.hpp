@@ -20,10 +20,11 @@ namespace ariel {
     public:
         Catan(Player p1, Player p2, Player p3);
         ~Catan();
-        void ChooseStartingPlayer();
+        vector<Player> ChooseStartingPlayer();
+        unsigned int getTurn(){ return turn; }
         void nextTurn();
-        void placeSettelemnt(Player p, unsigned int spot);
-        void placeRoad(Player p, int from, int to);
-        void printWinner();
+        bool placeSettelemnt(Player p, unsigned int spot);
+        bool placeRoad(Player p, unsigned int from, unsigned int to);
+        bool gotWinner();
     };
 }

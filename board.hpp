@@ -28,5 +28,6 @@ namespace ariel {
         ~Board();
         void setOwner(unsigned int spot, string color){ this->spots[spot].setOwner(color); };
         void printBoard();
+        Spot getSlot(unsigned int i){ return spots[i-1]; }
     };
 }

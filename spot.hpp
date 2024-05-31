@@ -18,14 +18,20 @@ namespace ariel {
     private:
         vector<string> type;
         vector<int> num;
-        vector<Spot> neighbors;
+        vector<int> neighbors;
         string owner = "";
+        unsigned int id;
         
     public:
         Spot();
         ~Spot();
-        void add_info(vector<string> type, vector<int> num, vector<Spot> neighbors);
+        void add_info(vector<string> type, vector<int> num, vector<int> neighbors, unsigned int id);
         void setOwner(string color){ if(this->owner.length() == 0){this->owner = color;} };
-        friend std::ostream& operator<<(std::ostream& os, Spot& g);
+        string getOwner(){ return this->owner; };
+        friend std::ostream& operator<<(std::ostream& os, Spot& s);
+        // bool operator==(Spot other){ return (*this).id == other.id; };
+        bool operator>(Spot other);
+        bool operator<(Spot other){ return *this > other; };
+        string getType(unsigned int place);
     };
 }
