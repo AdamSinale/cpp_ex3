@@ -115,7 +115,7 @@ namespace ariel {
         cout << spots[27] << spots[28] << spots[29] << spots[30] << spots[31] << spots[32] << endl;
         cout << "   \\    /  \\    /  \\    /  \\    /  \\    /" << endl;
         cout << "    " << spots[33] << spots[34] << spots[35] << spots[36] << spots[37] << endl;
-        cout << "    |"<<spots[43].getType(0)<<"|"<<spots[44].getType(0)<<"|"<<spots[45].getType(0)<<"|"<<spots[10].getType(0)<<"|" << endl;
+        cout << "     |"<<spots[43].getType(0)<<"|"<<spots[44].getType(0)<<"|"<<spots[45].getType(0)<<"|"<<spots[10].getType(0)<<"|" << endl;
         cout << "    " << spots[38] << spots[39] << spots[40] << spots[41] << spots[42] << endl;
         cout << "       \\    /  \\    /  \\    /  \\    /" << endl;
         cout << "        " << spots[43] << spots[44] << spots[45] << spots[46] << endl;

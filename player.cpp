@@ -13,9 +13,6 @@ namespace ariel {
     
     Player::Player(string name, string c) : name(name), color(c) {}
     
-    void Player::rollDice(){
-
-    }
     void Player::endTurn(){
 
     }

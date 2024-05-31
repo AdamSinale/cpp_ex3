@@ -19,7 +19,14 @@ namespace ariel {
         this->neighbors = neighbors;
         this->id = id;
     }
-    
+
+    string Spot::diceInSpot(int result){
+        for(unsigned int i=0; i<num.size(); i++){
+            if(num[i] == result){ return type[i]; }
+        }
+        return "0";
+    }
+
     std::ostream& operator<<(std::ostream& os, Spot& s) {
         string spaces = "    ";
         if(s.id < 10){ spaces = "     "; }

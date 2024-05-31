@@ -13,6 +13,8 @@ using namespace ariel;
 
 int main()
 {
+    unsigned int spot1, spot2, choise;
+    int diceSum;
     string name1,name2,name3;
     cout << "Welcome to Catan!\n Insert your names" << endl;
     cout <<"Player 1 (You're red):" << endl;
@@ -27,7 +29,6 @@ int main()
     Catan catan(p1, p2, p3);
     // Starting of the game. Every player places two settlements and two roads.
     vector<Player> players = catan.ChooseStartingPlayer();   // should print the name of the starting player, assume it is Amit.
-    unsigned int spot1, spot2, choise;
     for(unsigned int i=0; i<=2; i++){
         cout <<"Place the 1st Settelment " << players[i].getName() << endl;
         cin >> spot1;
@@ -43,7 +44,8 @@ int main()
         catan.nextTurn();
     }
     catan.nextTurn();
-    for(unsigned int i=2; i>=0; i--){
+    for(unsigned int j=3; j>0; j--){
+        unsigned int i = j-1;
         catan.nextTurn();
         cout <<"Place the 2nd Settelment " << players[i].getName() << endl;
         cin >> spot1;
@@ -59,11 +61,36 @@ int main()
         catan.nextTurn();
     }
     while(!catan.gotWinner()){
-        cout << "It's your turn" << players[catan.getTurn()].getName() << ", chose your move:" << endl;
-        cout << "Build settlement" << endl;
-        cout << "Build road" << endl;
+        cout << "It's your turn " << players[catan.getTurn()].getName() << endl;
+        diceSum = catan.rollDice();
+        cout << "The dice rolled is " << diceSum << endl;
+        cout << "====================" << endl;
+        cout << "You have: " << endl;
+        cout << "Wood: " << players[catan.getTurn()].getWood() << endl;
+        cout << "Rock: " << players[catan.getTurn()].getRock() << endl;
+        cout << "Wool: " << players[catan.getTurn()].getWool() << endl;
+        cout << "Iron: " << players[catan.getTurn()].getIron() << endl;
+        cout << "Oats: " << players[catan.getTurn()].getOats() << endl;
+        cout << "====================" << endl;
+        cout << "Choose your move:" << endl;
+        cout << "1 - Build settlement" << endl;
+        cout << "2 - Build road" << endl;
+
+        cout << "9 - End turn" << endl;
         cin >> choise;
-        catan.nextTurn();
+        if(choise == 1){
+            cout<< "Where do you want to built it?" << endl;
+            cin >> spot1;
+            catan.placeSettelemnt(players[catan.getTurn()], spot1);
+        }
+        if(choise == 2){
+            cout<< "Where do you want to built it?" << endl;
+            cin >> spot1;
+            cin >> spot2;
+            catan.placeRoad(players[catan.getTurn()], spot1, spot2);
+        }
+        
+        if(choise == 9){ catan.nextTurn(); }
     }
     // p1.rollDice();                                    // Lets say it's print 4. Then, p2 gets ore from the mountations.
     // catan.placeRoad(p1, {"Forest", "Hills"}, {5, 6}); // p1 continues to build a road.

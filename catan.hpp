@@ -22,6 +22,7 @@ namespace ariel {
         ~Catan();
         vector<Player> ChooseStartingPlayer();
         unsigned int getTurn(){ return turn; }
+        int rollDice();
         void nextTurn();
         bool placeSettelemnt(Player p, unsigned int spot);
         bool placeRoad(Player p, unsigned int from, unsigned int to);

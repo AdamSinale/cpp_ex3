@@ -23,7 +23,7 @@ namespace ariel {
         int wood = 2;
         int wool = 0;
         int iron = 0;
-        int wheat = 0;
+        int oats = 0;
         int rock = 2;
 
         int points = 0;
@@ -35,10 +35,17 @@ namespace ariel {
         ~Player();
         int getWood(){ return wood; }
         int getRock(){ return rock; }
+        int getWool(){ return wool; }
+        int getIron(){ return iron; }
+        int getOats(){ return oats; }
+        void addWood(int a){ wood += a; }
+        void addRock(int a){ rock += a; }
+        void addWool(int a){ wool += a; }
+        void addIron(int a){ iron += a; }
+        void addOats(int a){ oats += a; }
         string getName(){ return name; }
         string getColor(){ return color; }
         int getPoints(){ return points; }
-        void rollDice();
         void endTurn();
         void trade(Player to, string give, string get, int amount_give, int amount_get);
         void buyDevelopmentCard();

@@ -28,6 +28,26 @@ namespace ariel {
         cout << "It's your turn now " << players[turn].getName() << "\n" << endl;
     }
     
+    int Catan::rollDice(){
+        srand(time(0));
+        int result = (rand() % 6 + 1) + (rand() % 6 + 1);
+        for(unsigned int i=1; i<55; i++){
+            string typeWithNum = board.getSlot(i).diceInSpot(result);
+            if(typeWithNum!="0"){
+                for(unsigned int p; p<players.size(); p++){
+                    if(board.getSlot(i).getOwner() == players[p].getColor()){
+                        if(typeWithNum == "Wood"){ players[p].addWood(1); }
+                        if(typeWithNum == "Rock"){ players[p].addRock(1); }
+                        if(typeWithNum == "Wool"){ players[p].addWool(1); }
+                        if(typeWithNum == "Iron"){ players[p].addIron(1); }
+                        if(typeWithNum == "Oats"){ players[p].addOats(1); }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
     bool Catan::placeSettelemnt(Player p, unsigned int spot){
         if(players[turn] != p){
             cout << "Wait your turn " << p.getName() << endl;
@@ -54,15 +74,15 @@ namespace ariel {
                         // board.getSlot(from); add to spot
                         return true;
                     } else{ cout<< "not enough resources" << endl; }
-                } else{ cout << "There's no road between " << to_string(from) << " and " << to_string(to) << endl; }
+                } else{ cout << "There's no road between " << from << " and " << to << endl; }
             } else{ cout << "Cant place a road not connected to a settlement" << endl; }
         } else{ cout << "You are out of bounds (1-54)" << endl; }
         return false;
     }
     
     bool Catan::gotWinner(){
-        for(unsigned int i=0; i< players.size(); i++){
-            if(players[i].getPoints() == 10){
+        for(unsigned int i=0; i < players.size(); i++){
+            if(players[i].getPoints() >= 10){
                 cout << "====================\n" << players[i].getName() << "Won!!!" <<"====================\n" << endl;
                 return true;
             }
