@@ -60,7 +60,7 @@ namespace ariel {
     }
     
     bool Catan::gotWinner(){
-        for(int i=0; i< players.size(); i++){
+        for(unsigned int i=0; i< players.size(); i++){
             if(players[i].getPoints() == 10){
                 cout << "====================\n" << players[i].getName() << "Won!!!" <<"====================\n" << endl;
                 return true;
