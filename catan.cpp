@@ -36,6 +36,7 @@ namespace ariel {
         }
         board.setOwner(spot-1, p.getColor());
         this->board.printBoard();
+        return true;
     }
     
     bool Catan::placeRoad(Player p, unsigned int from, unsigned int to){
