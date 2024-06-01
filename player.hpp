@@ -10,6 +10,7 @@
 #include "board.hpp"
 
 using std::vector;
+using std::cin;
 using std::cout;
 using std::endl;
 using std::string;

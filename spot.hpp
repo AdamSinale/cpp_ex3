@@ -17,22 +17,22 @@ namespace ariel {
     class Spot {
     private:
         vector<string> type;
-        vector<int> num;
-        vector<int> neighbors;
+        vector<unsigned int> num;
+        vector<unsigned int> neighbors;
         string owner = "";
         unsigned int id;
         
     public:
         Spot();
         ~Spot();
-        void add_info(vector<string> type, vector<int> num, vector<int> neighbors, unsigned int id);
+        vector<unsigned int> getNeighbors(){ return neighbors; }
+        void add_info(vector<string> type, vector<unsigned int> num, vector<unsigned int> neighbors, unsigned int id);
         void setOwner(string color){ if(this->owner.length() == 0){this->owner = color;} };
         string getOwner(){ return this->owner; };
         string diceInSpot(int result);
         friend std::ostream& operator<<(std::ostream& os, Spot& s);
         // bool operator==(Spot other){ return (*this).id == other.id; };
-        bool operator>(Spot other);
-        bool operator<(Spot other){ return *this > other; };
+        bool closeTo(Spot other);
         string getType(unsigned int place);
     };
 }

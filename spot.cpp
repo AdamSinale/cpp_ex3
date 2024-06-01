@@ -13,7 +13,7 @@ namespace ariel {
     Spot::Spot(){}
     Spot::~Spot(){}
 
-    void Spot::add_info(vector<string> type, vector<int> num, vector<int> neighbors, unsigned int id){
+    void Spot::add_info(vector<string> type, vector<unsigned int> num, vector<unsigned int> neighbors, unsigned int id){
         this->type = type;
         this->num = num;
         this->neighbors = neighbors;
@@ -33,7 +33,7 @@ namespace ariel {
         os << s.owner << "("<<to_string(s.id)<<")" << RESET << spaces;
         return os;
     }
-    bool Spot::operator>(Spot other){
+    bool Spot::closeTo(Spot other){
         for(unsigned int i=0; i< this->neighbors.size(); i++){
             if(other.id == neighbors[i]){ return true; }
         }

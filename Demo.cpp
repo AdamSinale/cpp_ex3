@@ -1,6 +1,6 @@
 /**
  * Demo file for Ex3.
- *
+a b c 52 52 49 53 53 50 54 54 51 47 47 51 46 46 50 45 45 49
  */
 #include <iostream>
 #include <stdexcept>
@@ -31,16 +31,9 @@ int main()
     vector<Player> players = catan.ChooseStartingPlayer();   // should print the name of the starting player, assume it is Amit.
     for(unsigned int i=0; i<=2; i++){
         cout <<"Place the 1st Settelment " << players[i].getName() << endl;
-        cin >> spot1;
-        catan.placeSettelemnt(players[i], spot1);
+        catan.placeSettelemnt(players[i]);
         cout <<"Place the 1st road " << players[i].getName() << endl;
-        cin >> spot1;
-        cin >> spot2;
-        while(!catan.placeRoad(players[i], spot1, spot2)){
-            cout << "Try again" << endl;
-            cin >> spot1;
-            cin >> spot2;
-        };
+        catan.placeRoad(players[i]);
         catan.nextTurn();
     }
     catan.nextTurn();
@@ -48,22 +41,15 @@ int main()
         unsigned int i = j-1;
         catan.nextTurn();
         cout <<"Place the 2nd Settelment " << players[i].getName() << endl;
-        cin >> spot1;
-        catan.placeSettelemnt(players[i], spot1);
+        catan.placeSettelemnt(players[i]);
         cout <<"Place the 2st road " << players[i].getName() << endl;
-        cin >> spot1;
-        cin >> spot2;
-        while(!catan.placeRoad(players[i], spot1, spot2)){
-            cout << "Try again" << endl;
-            cin >> spot1;
-            cin >> spot2;
-        };
+        catan.placeRoad(players[i]);
         catan.nextTurn();
     }
     while(!catan.gotWinner()){
         cout << "It's your turn " << players[catan.getTurn()].getName() << endl;
         diceSum = catan.rollDice();
-        cout << "The dice rolled is " << diceSum << endl;
+        cout << "The dices rolled " << diceSum << endl;
         cout << "====================" << endl;
         cout << "You have: " << endl;
         cout << "Wood: " << players[catan.getTurn()].getWood() << endl;
@@ -80,14 +66,11 @@ int main()
         cin >> choise;
         if(choise == 1){
             cout<< "Where do you want to built it?" << endl;
-            cin >> spot1;
-            catan.placeSettelemnt(players[catan.getTurn()], spot1);
+            catan.placeSettelemnt(players[catan.getTurn()]);
         }
         if(choise == 2){
             cout<< "Where do you want to built it?" << endl;
-            cin >> spot1;
-            cin >> spot2;
-            catan.placeRoad(players[catan.getTurn()], spot1, spot2);
+            catan.placeRoad(players[catan.getTurn()]);
         }
         
         if(choise == 9){ catan.nextTurn(); }

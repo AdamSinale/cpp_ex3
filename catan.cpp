@@ -32,10 +32,10 @@ namespace ariel {
         srand(time(0));
         int result = (rand() % 6 + 1) + (rand() % 6 + 1);
         for(unsigned int i=1; i<55; i++){
-            string typeWithNum = board.getSlot(i).diceInSpot(result);
+            string typeWithNum = board.getSpot(i).diceInSpot(result);
             if(typeWithNum!="0"){
                 for(unsigned int p; p<players.size(); p++){
-                    if(board.getSlot(i).getOwner() == players[p].getColor()){
+                    if(board.getSpot(i).getOwner() == players[p].getColor()){
                         if(typeWithNum == "Wood"){ players[p].addWood(1); }
                         if(typeWithNum == "Rock"){ players[p].addRock(1); }
                         if(typeWithNum == "Wool"){ players[p].addWool(1); }
@@ -48,36 +48,59 @@ namespace ariel {
         return result;
     }
 
-    bool Catan::placeSettelemnt(Player p, unsigned int spot){
+    bool Catan::placeSettelemnt(Player p){
         if(players[turn] != p){
             cout << "Wait your turn " << p.getName() << endl;
             cout << "It's your turn " << players[turn].getName() << endl;
             return false;
+        }
+        unsigned int spot;
+        while(true){
+            bool okToPlace = true;
+            cin >> spot;
+            if(spot > 0 && spot < 55){
+                if(board.getSpot(spot).getOwner() == ""){
+                    vector<unsigned int> neighbors = board.getSpot(spot).getNeighbors();
+                    for(unsigned int i=0; i<neighbors.size(); i++){
+                        if(board.getSpot(neighbors[i]).getOwner() != ""){
+                            cout << "Can't place a settelment neighbor to another" << endl;
+                            okToPlace = false;
+                            break;
+                        }
+                    }
+                    if(okToPlace) { break; }
+                } else{ cout << "There's already a settlement" << endl;}
+            } else { cout << "You are out of bounds (1-54)" << endl; }
         }
         board.setOwner(spot-1, p.getColor());
         this->board.printBoard();
         return true;
     }
     
-    bool Catan::placeRoad(Player p, unsigned int from, unsigned int to){
+    bool Catan::placeRoad(Player p){
         if(players[turn] != p){
             cout << "Wait your turn " << p.getName() << endl;
             cout << "It's your turn " << players[turn].getName() << endl;
             return false;
         }
-        if(from > 0 && from < 55 && to > 0 && to < 55){
-            if(p.getColor() == board.getSlot(from).getOwner() || p.getColor() == board.getSlot(to).getOwner()){
-                if(board.getSlot(from)>board.getSlot(to)){
-                    if(p.getWood()> 0 && p.getRock() > 0){
-                        p.builtRoad();
-                        this->board.printBoard();
-                        // board.getSlot(from); add to spot
-                        return true;
-                    } else{ cout<< "not enough resources" << endl; }
-                } else{ cout << "There's no road between " << from << " and " << to << endl; }
-            } else{ cout << "Cant place a road not connected to a settlement" << endl; }
-        } else{ cout << "You are out of bounds (1-54)" << endl; }
-        return false;
+        unsigned int from, to;
+        while(true){
+            cin >> from;
+            cin >> to;
+            if(from > 0 && from < 55 && to > 0 && to < 55){
+                if(p.getColor() == board.getSpot(from).getOwner() || p.getColor() == board.getSpot(to).getOwner()){
+                    if(board.getSpot(from).closeTo(board.getSpot(to))){
+                        if(p.getWood()> 0 && p.getRock() > 0){
+                            p.builtRoad();
+                            this->board.printBoard();
+                            // board.getSpot(from); add to spot
+                            break;
+                        } else{ cout<< "not enough resources" << endl; }
+                    } else{ cout << "There's no road between " << from << " and " << to << endl; }
+                } else{ cout << "Cant place a road not connected to a settlement" << endl; }
+            } else{ cout << "You are out of bounds (1-54)" << endl; }
+        }
+        return true;
     }
     
     bool Catan::gotWinner(){
