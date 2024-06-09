@@ -53,7 +53,7 @@ namespace ariel {
         
         spots[16].add_info({types[10],types[11]}, {nums[10],nums[11]}, {12,22,23}, 17);
         spots[17].add_info({types[11],types[12],types[17]}, {nums[11],nums[12],nums[17]}, {23,23,13}, 18);
-        spots[18].add_info({types[12],types[13],"Desert"}, {nums[12],nums[13],nums[18]}, {23,25,14}, 19);
+        spots[18].add_info({types[12],types[13],"Desert"}, {nums[12],nums[13],nums[18]}, {24,25,14}, 19);
         spots[19].add_info({types[3],types[13],types[14]}, {nums[3],nums[13],nums[14]}, {25,26,15}, 20);
         spots[20].add_info({types[3],types[4]}, {nums[3],nums[4]}, {26,27,16}, 21);
         
@@ -99,29 +99,39 @@ namespace ariel {
     }
     Board::~Board(){}
 
+    string Board::road(unsigned int from, unsigned int to, string c){
+        vector<unsigned int> neighbors = this->spots[from].getNeighbors();
+        for(unsigned int i=0; i<neighbors.size(); i++){
+            if(this->spots[neighbors[i]-1] == this->spots[to]){
+                return this->spots[from].getRoadOwner(i) + c + "\033[0m";
+            }
+        }
+        return c;
+    }
+
     void Board::printBoard(){
         cout << "            " << spots[0] << spots[1] << spots[2] << endl;
-        cout << "           /   \\   /   \\   /   \\" << endl;
+        cout << "           "<<road(0,3,"/   ")<<road(0,4,"\\   ")<<road(1,4,"/   ")<<road(1,5,"\\   ")<<road(2,5,"/   ")<<road(2,6,"\\   ") << endl;
         cout << "        " << spots[3] << spots[4] << spots[5] << spots[6] << endl;
-        cout << "         |"<<spots[0].getType(0)<<"|"<<spots[1].getType(0)<<"|"<<spots[2].getType(0)<<"|" << endl;
+        cout << "         "<<road(3,7,"|")<<spots[0].getType(0)<<road(4,8,"|")<<spots[1].getType(0)<<road(5,9,"|")<<spots[2].getType(0)<<road(6,10,"|") << endl;
         cout << "        " << spots[7] << spots[8] << spots[9] << spots[10] << endl;
-        cout << "       /    \\  /    \\  /    \\  /    \\" << endl;
+        cout << "       "<<road(7,11,"/    ")<<road(7,12,"\\  ")<<road(8,12,"/    ")<<road(8,13,"\\  ")<<road(9,13,"/    ")<<road(9,14,"\\  ")<<road(10,14,"/    ")<<road(10,15,"\\  ") << endl;
         cout << "    " << spots[11] << spots[12] << spots[13] << spots[14] << spots[15] << endl;
-        cout << "     |"<<spots[7].getType(0)<<"|"<<spots[8].getType(0)<<"|"<<spots[9].getType(0)<<"|"<<spots[10].getType(0)<<"|" << endl;
+        cout << "     "<<road(11,16,"|")<<spots[7].getType(0)<<road(12,17,"|")<<spots[8].getType(0)<<road(13,18,"|")<<spots[9].getType(0)<<road(14,19,"|")<<spots[10].getType(0)<<road(15,20,"|") << endl;
         cout << "    " << spots[16] << spots[17] << spots[18] << spots[19] << spots[20] << endl;
-        cout << "   /    \\  /    \\  /    \\  /    \\  /    \\" << endl;
+        cout << "   "<<road(16,21,"/    ")<<road(16,22,"\\  ")<<road(17,22,"/    ")<<road(17,23,"\\  ")<<road(18,23,"/    ")<<road(18,24,"\\  ")<<road(19,24,"/    ")<<road(19,25,"\\  ")<<road(20,25,"/    ")<<road(20,26,"\\  ") << endl;
         cout << spots[21] << spots[22] << spots[23] << spots[24] << spots[25] << spots[26] << endl;
-        cout << " |"<<spots[16].getType(0)<<"|"<<spots[17].getType(0)<<"|"<<spots[18].getType(0)<<"|"<<spots[19].getType(0)<<"|"<<spots[20].getType(0)<<"|" << endl;
+        cout << " "<<road(21,27,"|")<<spots[16].getType(0)<<road(22,28,"|")<<spots[17].getType(0)<<road(23,29,"|")<<spots[18].getType(0)<<road(24,30,"|")<<spots[19].getType(0)<<road(25,31,"|")<<spots[20].getType(0)<<road(26,32,"|") << endl;
         cout << spots[27] << spots[28] << spots[29] << spots[30] << spots[31] << spots[32] << endl;
-        cout << "   \\    /  \\    /  \\    /  \\    /  \\    /" << endl;
+        cout << "   "<<road(27,33,"\\    ")<<road(28,33,"/  ")<<road(28,34,"\\    ")<<road(29,34,"/  ")<<road(29,35,"\\    ")<<road(30,35,"/  ")<<road(30,36,"\\    ")<<road(31,36,"/  ")<<road(31,37,"\\    ")<<road(32,37,"/  ") << endl;
         cout << "    " << spots[33] << spots[34] << spots[35] << spots[36] << spots[37] << endl;
-        cout << "     |"<<spots[43].getType(0)<<"|"<<spots[44].getType(0)<<"|"<<spots[45].getType(0)<<"|"<<spots[10].getType(0)<<"|" << endl;
+        cout << "     "<<road(33,38,"|")<<spots[43].getType(0)<<road(34,39,"|")<<spots[44].getType(0)<<road(35,40,"|")<<spots[45].getType(0)<<road(36,41,"|")<<spots[10].getType(0)<<road(37,42,"|") << endl;
         cout << "    " << spots[38] << spots[39] << spots[40] << spots[41] << spots[42] << endl;
-        cout << "       \\    /  \\    /  \\    /  \\    /" << endl;
+        cout << "       "<<road(38,43,"\\    ")<<road(39,43,"/  ")<<road(39,44,"\\    ")<<road(40,44,"/  ")<<road(40,45,"\\    ")<<road(41,45,"/  ")<<road(41,46,"\\    ")<<road(42,46,"/  ") << endl;
         cout << "        " << spots[43] << spots[44] << spots[45] << spots[46] << endl;
-        cout << "         |"<<spots[51].getType(0)<<"|"<<spots[52].getType(0)<<"|"<<spots[53].getType(0)<<"|" << endl;
+        cout << "         "<<road(43,47,"|")<<spots[51].getType(0)<<road(44,48,"|")<<spots[52].getType(0)<<road(45,49,"|")<<spots[53].getType(0)<<road(46,50,"|") << endl;
         cout << "        " << spots[47] << spots[48] << spots[49] << spots[50] << endl;
-        cout << "           \\    /  \\    /  \\    /" << endl;
+        cout << "           "<<road(47,51,"\\    ")<<road(48,51,"/  ")<<road(48,52,"\\    ")<<road(49,52,"/  ")<<road(49,53,"\\    ")<<road(50,53,"/  ") << endl;
         cout << "            " << spots[51] << spots[52] << spots[53] << "\n\n-----------------------------------\n\n";
     }
 

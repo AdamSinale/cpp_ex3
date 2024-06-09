@@ -18,14 +18,15 @@ namespace ariel {
         Board board;
 
     public:
-        Catan(Player p1, Player p2, Player p3);
+        Catan(Player& p1, Player& p2, Player& p3);
         ~Catan();
-        vector<Player> ChooseStartingPlayer();
+        vector<Player>& ChooseStartingPlayer();
         unsigned int getTurn(){ return turn; }
         int rollDice();
         void nextTurn();
-        bool placeSettelemnt(Player p);
-        bool placeRoad(Player p);
+        bool placeSettlement(Player& p);
+        bool upgradeSettlement(Player& p);
+        bool placeRoad(Player& p);
         bool gotWinner();
     };
 }

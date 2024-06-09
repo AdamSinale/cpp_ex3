@@ -21,11 +21,11 @@ namespace ariel {
     private:
         string color;
         string name;
-        int wood = 2;
-        int wool = 0;
+        int wool = 2;
         int iron = 0;
-        int oats = 0;
-        int rock = 2;
+        int oats = 2;
+        int wood = 4;
+        int rock = 4;
 
         int points = 0;
 
@@ -51,6 +51,8 @@ namespace ariel {
         void trade(Player to, string give, string get, int amount_give, int amount_get);
         void buyDevelopmentCard();
         void builtRoad(){ wood--; rock--; }
+        void builtSettlement(){ wood--; rock--; wool--; oats--; }
+        void upgradedCity(){ addOats(-2); addIron(-3); }
         void printPoints();
         bool operator==(Player other){ return this->color == other.color; }
         bool operator!=(Player other){ return !(*this == other); }

@@ -18,6 +18,8 @@ namespace ariel {
         this->num = num;
         this->neighbors = neighbors;
         this->id = id;
+        vector<string> empty_roads(neighbors.size(),"");
+        this->roads = empty_roads;
     }
 
     string Spot::diceInSpot(int result){

@@ -26,8 +26,9 @@ namespace ariel {
     public:
         Board();
         ~Board();
-        void setOwner(unsigned int spot, string color){ this->spots[spot].setOwner(color); };
+        void setOwner(unsigned int spot, string color){ this->spots[spot-1].setOwner(color); };
+        string road(unsigned int from, unsigned int to, string c);
         void printBoard();
-        Spot getSpot(unsigned int i){ return spots[i-1]; }
+        Spot& getSpot(unsigned int i){ return spots[i-1]; }
     };
 }

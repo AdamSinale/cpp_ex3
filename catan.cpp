@@ -8,19 +8,19 @@
 
 namespace ariel {
 
-    Catan::Catan(Player pl1, Player pl2, Player pl3){
+    Catan::Catan(Player& pl1, Player& pl2, Player& pl3){
         this->players = {pl1,pl2,pl3};
         board = Board();
         this->board.printBoard();
     }
     Catan::~Catan(){}
     
-    vector<Player> Catan::ChooseStartingPlayer(){
+    vector<Player>& Catan::ChooseStartingPlayer(){
         unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
         std::shuffle(players.begin(), players.end(), std::default_random_engine(seed));
         this->turn = 0;
         cout << "The starting player is " << players[turn].getName() << "\n" << endl;
-        return players;
+        return this->players;
     }
     
     void Catan::nextTurn(){
@@ -34,7 +34,7 @@ namespace ariel {
         for(unsigned int i=1; i<55; i++){
             string typeWithNum = board.getSpot(i).diceInSpot(result);
             if(typeWithNum!="0"){
-                for(unsigned int p; p<players.size(); p++){
+                for(unsigned int p=0; p<players.size(); p++){
                     if(board.getSpot(i).getOwner() == players[p].getColor()){
                         if(typeWithNum == "Wood"){ players[p].addWood(1); }
                         if(typeWithNum == "Rock"){ players[p].addRock(1); }
@@ -48,16 +48,21 @@ namespace ariel {
         return result;
     }
 
-    bool Catan::placeSettelemnt(Player p){
+    bool Catan::placeSettlement(Player& p){
         if(players[turn] != p){
             cout << "Wait your turn " << p.getName() << endl;
             cout << "It's your turn " << players[turn].getName() << endl;
+            return false;
+        }
+        if(p.getWood() < 1 || p.getRock() < 1 || p.getOats() < 1 || p.getWool() < 1){
+            cout<< "not enough resources" << endl;
             return false;
         }
         unsigned int spot;
         while(true){
             bool okToPlace = true;
             cin >> spot;
+            if(spot == 0){ return false; }
             if(spot > 0 && spot < 55){
                 if(board.getSpot(spot).getOwner() == ""){
                     vector<unsigned int> neighbors = board.getSpot(spot).getNeighbors();
@@ -72,34 +77,79 @@ namespace ariel {
                 } else{ cout << "There's already a settlement" << endl;}
             } else { cout << "You are out of bounds (1-54)" << endl; }
         }
-        board.setOwner(spot-1, p.getColor());
+        p.builtSettlement();
+        board.setOwner(spot, p.getColor());
         this->board.printBoard();
         return true;
     }
     
-    bool Catan::placeRoad(Player p){
+    bool Catan::upgradeSettlement(Player& p){
         if(players[turn] != p){
             cout << "Wait your turn " << p.getName() << endl;
             cout << "It's your turn " << players[turn].getName() << endl;
+            return false;
+        }
+        if(p.getIron() < 3 || p.getOats() < 2){
+            cout<< "not enough resources" << endl;
+            return false;
+        }
+        unsigned int spot;
+        while(true){
+            bool okToPlace = true;
+            cin >> spot;
+            if(spot == 0){ return false; }
+            if(spot > 0 && spot < 55){
+                if(board.getSpot(spot).getOwner() == p.getColor()){
+                    p.upgradedCity();
+                    board.setOwner(spot, p.getColor().replace(2, 2, "1;"));
+                    break;
+                } else{ cout << "Not yours to upgrade" << endl;}
+            } else { cout << "You are out of bounds (1-54)" << endl; }
+        }
+        this->board.printBoard();
+        return true;
+
+    }
+
+    bool Catan::placeRoad(Player& p){
+        if(players[turn] != p){
+            cout << "Wait your turn " << p.getName() << endl;
+            cout << "It's your turn " << players[turn].getName() << endl;
+            return false;
+        }
+        if(p.getWood() < 1 || p.getRock() < 1){
+            cout<< "not enough resources" << endl;
             return false;
         }
         unsigned int from, to;
         while(true){
             cin >> from;
             cin >> to;
+            if(from == 0 || to == 0){ return false; }
             if(from > 0 && from < 55 && to > 0 && to < 55){
-                if(p.getColor() == board.getSpot(from).getOwner() || p.getColor() == board.getSpot(to).getOwner()){
+                if(p.getColor() == board.getSpot(from).getOwner() || p.getColor() == board.getSpot(to).getOwner()
+                || (board.getSpot(from).getOwner()!="" && p.getColor() == board.getSpot(from).getOwner().replace(2, 2, "0;"))
+                || (board.getSpot(to).getOwner()!="" && p.getColor() == board.getSpot(to).getOwner().replace(2, 2, "0;"))){
                     if(board.getSpot(from).closeTo(board.getSpot(to))){
-                        if(p.getWood()> 0 && p.getRock() > 0){
-                            p.builtRoad();
-                            this->board.printBoard();
-                            // board.getSpot(from); add to spot
-                            break;
-                        } else{ cout<< "not enough resources" << endl; }
+                        p.builtRoad();
+                        vector<unsigned int> neighbors = this->board.getSpot(from).getNeighbors();
+                        for(unsigned int i=0; i<neighbors.size(); i++){
+                            if(board.getSpot(neighbors[i]) == board.getSpot(to)){
+                                board.getSpot(from).setRoadOwner(p.getColor(), i);
+                            }
+                        }
+                        neighbors = this->board.getSpot(to).getNeighbors();
+                        for(unsigned int i=0; i<neighbors.size(); i++){
+                            if(board.getSpot(neighbors[i]) == board.getSpot(from)){
+                                board.getSpot(to).setRoadOwner(p.getColor(), i);
+                            }
+                        }
+                        break;
                     } else{ cout << "There's no road between " << from << " and " << to << endl; }
                 } else{ cout << "Cant place a road not connected to a settlement" << endl; }
             } else{ cout << "You are out of bounds (1-54)" << endl; }
         }
+        this->board.printBoard();
         return true;
     }
     
