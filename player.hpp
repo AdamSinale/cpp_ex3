@@ -44,11 +44,14 @@ namespace ariel {
         void addWool(int a){ wool += a; }
         void addIron(int a){ iron += a; }
         void addOats(int a){ oats += a; }
+        void addPoint(){ points++; }
+        void remoovePoint(){ points--; }
         string getName(){ return name; }
         string getColor(){ return color; }
         int getPoints(){ return points; }
         void endTurn();
-        void trade(Player to, string give, string get, int amount_give, int amount_get);
+        bool trade(Player& to);
+        bool tradeBank();
         void buyDevelopmentCard();
         void builtRoad(){ wood--; rock--; }
         void builtSettlement(){ wood--; rock--; wool--; oats--; }

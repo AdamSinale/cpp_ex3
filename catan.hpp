@@ -26,7 +26,9 @@ namespace ariel {
         void nextTurn();
         bool placeSettlement(Player& p);
         bool upgradeSettlement(Player& p);
+        bool trade(Player& p);
         bool placeRoad(Player& p);
+        void printBoard();
         bool gotWinner();
     };
 }

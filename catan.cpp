@@ -11,7 +11,6 @@ namespace ariel {
     Catan::Catan(Player& pl1, Player& pl2, Player& pl3){
         this->players = {pl1,pl2,pl3};
         board = Board();
-        this->board.printBoard();
     }
     Catan::~Catan(){}
     
@@ -70,7 +69,7 @@ namespace ariel {
                         if(board.getSpot(neighbors[i]).getOwner() != ""){
                             cout << "Can't place a settelment neighbor to another" << endl;
                             okToPlace = false;
-                            break;
+                            break; // breaks from for loop only
                         }
                     }
                     if(okToPlace) { break; }
@@ -79,7 +78,7 @@ namespace ariel {
         }
         p.builtSettlement();
         board.setOwner(spot, p.getColor());
-        this->board.printBoard();
+        p.addPoint();
         return true;
     }
     
@@ -100,15 +99,40 @@ namespace ariel {
             if(spot == 0){ return false; }
             if(spot > 0 && spot < 55){
                 if(board.getSpot(spot).getOwner() == p.getColor()){
-                    p.upgradedCity();
-                    board.setOwner(spot, p.getColor().replace(2, 2, "1;"));
                     break;
                 } else{ cout << "Not yours to upgrade" << endl;}
             } else { cout << "You are out of bounds (1-54)" << endl; }
         }
-        this->board.printBoard();
+        p.upgradedCity();
+        board.setOwner(spot, p.getColor().replace(2, 2, "1;"));
+        p.addPoint();
         return true;
 
+    }
+
+    bool Catan::trade(Player& p){
+        if(players[turn] != p){
+            cout << "Wait your turn " << p.getName() << endl;
+            cout << "It's your turn " << players[turn].getName() << endl;
+            return false;
+        }
+        string name;
+        while(true){
+            cin >> name;
+            if(name == "0"){ break; }
+            for(unsigned int i=0; i<players.size(); i++){
+                if(players[i].getName() == name && players[i] != p){}{
+                    if(p.trade(players[i])){ 
+                        cout << "Successfully traded." << endl;
+                        return true;
+                    }
+                    cout << "Couldn't/wouldn't trade." << endl;
+                    return false; 
+                }
+            }
+            cout << "No player with such name." << endl;
+        }
+        return false; 
     }
 
     bool Catan::placeRoad(Player& p){
@@ -149,10 +173,13 @@ namespace ariel {
                 } else{ cout << "Cant place a road not connected to a settlement" << endl; }
             } else{ cout << "You are out of bounds (1-54)" << endl; }
         }
-        this->board.printBoard();
         return true;
     }
     
+    void Catan::printBoard(){
+        this->board.printBoard();
+    }
+
     bool Catan::gotWinner(){
         for(unsigned int i=0; i < players.size(); i++){
             if(players[i].getPoints() >= 10){

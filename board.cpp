@@ -40,35 +40,35 @@ namespace ariel {
         spots[5].add_info({types[1],types[2]}, {nums[1],nums[2]}, {2,3,10}, 6);
         spots[6].add_info({types[2]}, {nums[2]}, {3,11}, 7);
 
-        spots[7].add_info({types[0],types[11]}, {nums[0],nums[11]}, {4,12,13}, 8);
-        spots[8].add_info({types[0],types[1],types[12]}, {nums[0],nums[1],nums[12]}, {13,14,5}, 9);
-        spots[9].add_info({types[1],types[2],types[13]}, {nums[1],nums[2],nums[13]}, {14,15,6}, 10);
-        spots[10].add_info({types[2],types[3]}, {nums[2],nums[3]}, {15,16,7}, 11);
+        spots[7].add_info({types[11],types[0]}, {nums[11],nums[0]}, {4,12,13}, 8);
+        spots[8].add_info({types[12],types[0],types[1]}, {nums[12],nums[0],nums[1]}, {13,14,5}, 9);
+        spots[9].add_info({types[13],types[1],types[2]}, {nums[13],nums[1],nums[2]}, {14,15,6}, 10);
+        spots[10].add_info({types[3],types[2]}, {nums[3],nums[2]}, {15,16,7}, 11);
         
         spots[11].add_info({types[11]}, {nums[11]}, {8,17}, 12);
         spots[12].add_info({types[0],types[11],types[12]}, {nums[0],nums[11],nums[12]}, {8,9,18}, 13);
         spots[13].add_info({types[1],types[12],types[13]}, {nums[1],nums[12],nums[13]}, {9,10,19}, 14);
-        spots[14].add_info({types[2],types[13],types[3]}, {nums[2],nums[13],nums[3]}, {10,11,20}, 15);
+        spots[14].add_info({types[2],types[3],types[13]}, {nums[2],nums[3],nums[13]}, {10,11,20}, 15);
         spots[15].add_info({types[3]}, {nums[3]}, {11,21}, 16);
         
         spots[16].add_info({types[10],types[11]}, {nums[10],nums[11]}, {12,22,23}, 17);
-        spots[17].add_info({types[11],types[12],types[17]}, {nums[11],nums[12],nums[17]}, {23,23,13}, 18);
-        spots[18].add_info({types[12],types[13],"Desert"}, {nums[12],nums[13],nums[18]}, {24,25,14}, 19);
-        spots[19].add_info({types[3],types[13],types[14]}, {nums[3],nums[13],nums[14]}, {25,26,15}, 20);
-        spots[20].add_info({types[3],types[4]}, {nums[3],nums[4]}, {26,27,16}, 21);
+        spots[17].add_info({types[17],types[11],types[12]}, {nums[17],nums[11],nums[12]}, {23,23,13}, 18);
+        spots[18].add_info({"Desert",types[12],types[13]}, {nums[18],nums[12],nums[13]}, {24,25,14}, 19);
+        spots[19].add_info({types[14],types[3],types[13]}, {nums[14],nums[3],nums[13]}, {25,26,15}, 20);
+        spots[20].add_info({types[4],types[3]}, {nums[4],nums[3]}, {26,27,16}, 21);
         
         spots[21].add_info({types[10]}, {nums[10]}, {17,28}, 22);
         spots[22].add_info({types[10],types[11],types[17]}, {nums[10],nums[11],nums[17]}, {17,18,29}, 23);
         spots[23].add_info({types[12],types[17],"Desert"}, {nums[12],nums[17],nums[18]}, {18,19,30}, 24);
         spots[24].add_info({types[13],types[14],"Desert"}, {nums[13],nums[14],nums[18]}, {19,20,31}, 25);
-        spots[25].add_info({types[3],types[14],types[4]}, {nums[3],nums[14],nums[4]}, {20,21,32}, 26);
+        spots[25].add_info({types[3],types[4],types[14]}, {nums[3],nums[4],nums[14]}, {20,21,32}, 26);
         spots[26].add_info({types[4]}, {nums[4]}, {21,33}, 27);
         
         spots[27].add_info({types[10]}, {nums[10]}, {34,22}, 28);
         spots[28].add_info({types[9],types[10],types[17]}, {nums[9],nums[10],nums[17]}, {34,35,23}, 29);
         spots[29].add_info({types[16],types[17],"Desert"}, {nums[16],nums[17],nums[18]}, {35,36,23}, 30);
-        spots[30].add_info({types[14],types[15],"Desert"}, {nums[14],nums[15],nums[18]}, {36,37,25}, 31);
-        spots[31].add_info({types[4],types[5],types[14]}, {nums[4],nums[5],nums[14]}, {37,38,26}, 32);
+        spots[30].add_info({types[15],types[14],"Desert"}, {nums[15],nums[14],nums[18]}, {36,37,25}, 31);
+        spots[31].add_info({types[5],types[4],types[14]}, {nums[5],nums[4],nums[14]}, {37,38,26}, 32);
         spots[32].add_info({types[4]}, {nums[4]}, {38,27}, 33);
         
         spots[33].add_info({types[9],types[10]}, {nums[9],nums[10]}, {28,39,29}, 34);
@@ -80,7 +80,7 @@ namespace ariel {
         spots[38].add_info({types[9]}, {nums[9]}, {44,34}, 39);
         spots[39].add_info({types[8],types[9],types[16]}, {nums[8],nums[9],nums[16]}, {44,45,35}, 40);
         spots[40].add_info({types[7],types[15],types[16]}, {nums[7],nums[15],nums[16]}, {45,46,36}, 41);
-        spots[41].add_info({types[5],types[6],types[15]}, {nums[5],nums[6],nums[15]}, {46,47,37}, 42);
+        spots[41].add_info({types[6],types[5],types[15]}, {nums[6],nums[5],nums[15]}, {46,47,37}, 42);
         spots[42].add_info({types[5]}, {nums[5]}, {47,38}, 43);
 
         spots[43].add_info({types[8],types[9]}, {nums[8],nums[9]}, {48,39,40}, 44);
@@ -125,11 +125,11 @@ namespace ariel {
         cout << spots[27] << spots[28] << spots[29] << spots[30] << spots[31] << spots[32] << endl;
         cout << "   "<<road(27,33,"\\    ")<<road(28,33,"/  ")<<road(28,34,"\\    ")<<road(29,34,"/  ")<<road(29,35,"\\    ")<<road(30,35,"/  ")<<road(30,36,"\\    ")<<road(31,36,"/  ")<<road(31,37,"\\    ")<<road(32,37,"/  ") << endl;
         cout << "    " << spots[33] << spots[34] << spots[35] << spots[36] << spots[37] << endl;
-        cout << "     "<<road(33,38,"|")<<spots[43].getType(0)<<road(34,39,"|")<<spots[44].getType(0)<<road(35,40,"|")<<spots[45].getType(0)<<road(36,41,"|")<<spots[10].getType(0)<<road(37,42,"|") << endl;
+        cout << "     "<<road(33,38,"|")<<spots[28].getType(0)<<road(34,39,"|")<<spots[29].getType(0)<<road(35,40,"|")<<spots[30].getType(0)<<road(36,41,"|")<<spots[31].getType(0)<<road(37,42,"|") << endl;
         cout << "    " << spots[38] << spots[39] << spots[40] << spots[41] << spots[42] << endl;
         cout << "       "<<road(38,43,"\\    ")<<road(39,43,"/  ")<<road(39,44,"\\    ")<<road(40,44,"/  ")<<road(40,45,"\\    ")<<road(41,45,"/  ")<<road(41,46,"\\    ")<<road(42,46,"/  ") << endl;
         cout << "        " << spots[43] << spots[44] << spots[45] << spots[46] << endl;
-        cout << "         "<<road(43,47,"|")<<spots[51].getType(0)<<road(44,48,"|")<<spots[52].getType(0)<<road(45,49,"|")<<spots[53].getType(0)<<road(46,50,"|") << endl;
+        cout << "         "<<road(43,47,"|")<<spots[39].getType(0)<<road(44,48,"|")<<spots[40].getType(0)<<road(45,49,"|")<<spots[41].getType(0)<<road(46,50,"|") << endl;
         cout << "        " << spots[47] << spots[48] << spots[49] << spots[50] << endl;
         cout << "           "<<road(47,51,"\\    ")<<road(48,51,"/  ")<<road(48,52,"\\    ")<<road(49,52,"/  ")<<road(49,53,"\\    ")<<road(50,53,"/  ") << endl;
         cout << "            " << spots[51] << spots[52] << spots[53] << "\n\n-----------------------------------\n\n";
