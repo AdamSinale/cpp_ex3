@@ -29,6 +29,10 @@ namespace ariel {
 
         int points = 0;
 
+        int knights = 0;
+        int monopoly = 0;
+        int yearOfPlenty = 0;
+        int roadBuilding = 0;
 
     public:
         Player();
@@ -45,14 +49,16 @@ namespace ariel {
         void addIron(int a){ iron += a; }
         void addOats(int a){ oats += a; }
         void addPoint(){ points++; }
+        void addMonopoly(){ monopoly++; }
+        void addKnights(){ knights++; }
+        void addYearOfPlenty(){ yearOfPlenty++; }
+        void addRoadBuilding(){ roadBuilding++; }
         void remoovePoint(){ points--; }
         string getName(){ return name; }
         string getColor(){ return color; }
         int getPoints(){ return points; }
-        void endTurn();
         bool trade(Player& to);
         bool tradeBank();
-        void buyDevelopmentCard();
         void builtRoad(){ wood--; rock--; }
         void builtSettlement(){ wood--; rock--; wool--; oats--; }
         void upgradedCity(){ addOats(-2); addIron(-3); }

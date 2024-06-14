@@ -98,8 +98,7 @@ int main()
                     players[catan.getTurn()].tradeBank();
                     break;
                 case 6:
-                    // Logic for buying a development card
-                    cout << "Buy development card functionality." << endl;
+                    catan.buyDevelopmentCard(players[catan.getTurn()]);
                     break;
                 case 7:
                     // Logic for using a development card

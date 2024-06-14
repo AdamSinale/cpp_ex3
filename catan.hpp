@@ -4,11 +4,15 @@
 #pragma once
 
 #include "player.hpp"
+#include "devcard.hpp"
 #include "board.hpp"
 
 #include <vector>
 #include <iostream>
 #include <string>
+#include <stack>
+
+using std::stack;
 
 namespace ariel {
     class Catan {
@@ -16,6 +20,7 @@ namespace ariel {
         vector<Player> players;
         unsigned int turn = 0;
         Board board;
+        stack<string> devcards;
 
     public:
         Catan(Player& p1, Player& p2, Player& p3);
@@ -30,5 +35,7 @@ namespace ariel {
         bool placeRoad(Player& p);
         void printBoard();
         bool gotWinner();
+        void buyDevelopmentCard(Player& p);
+        void useDevelopmentCard(Player& p);
     };
 }

@@ -11,6 +11,16 @@ namespace ariel {
     Catan::Catan(Player& pl1, Player& pl2, Player& pl3){
         this->players = {pl1,pl2,pl3};
         board = Board();
+
+        vector<string> cards = {"Monopoly","Monopoly","Year of Plenty","Year of Plenty","Road Building","Road Building",
+        "Victory Point","Victory Point","Victory Point","Victory Point","Victory Point","Knight","Knight","Knight","Knight",
+        "Knight","Knight","Knight","Knight","Knight","Knight","Knight","Knight","Knight","Knight"};
+        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        std::shuffle(cards.begin(), cards.end(), std::default_random_engine(seed));
+
+        for (const auto& card : cards) {
+            this->devcards.push(card);
+        }
     }
     Catan::~Catan(){}
     
@@ -188,5 +198,28 @@ namespace ariel {
             }
         }
         return false;
+    }
+   
+    void Catan::buyDevelopmentCard(Player& p){
+        if(p.getOats() > 0 && p.getWool() > 0 && p.getRock() > 0){
+            string card = devcards.top();
+            devcards.pop();
+            cout << "You got a " << card << "!" << endl;
+            if(card == "Victory Point"){ p.addPoint(); }
+            else if(card == "Monopoly"){ p.addMonopoly(); }
+            else if(card == "Knight"){ p.addKnights(); }
+            else if(card == "Year of Plenty"){ p.addYearOfPlenty(); }
+            else if(card == "Road Building"){ p.addRoadBuilding(); }
+        } else{ cout << "Not enough resources" << endl; }
+    }
+    void Catan::useDevelopmentCard(Player& p){
+        string card;
+        cout << "what card do you wish to use?" << endl;
+        cin >> card;
+        if(card == "Monopoly"){  }
+        else if(card == "Knight"){  }
+        else if(card == "Year of Plenty"){  }
+        else if(card == "Road Building"){  }
+        else{ cout<< "No such card" << endl; }
     }
 }

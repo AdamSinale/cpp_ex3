@@ -13,9 +13,6 @@ namespace ariel {
     
     Player::Player(string name, string c) : name(name), color(c) {}
     
-    void Player::endTurn(){
-
-    }
     bool Player::trade(Player& to){
         char choice;
         int f_wool, f_wood, f_iron, f_rock, f_oats, t_wool, t_wood, t_iron, t_rock, t_oats;
@@ -66,7 +63,7 @@ namespace ariel {
             cout << "not enough of a material" << endl;
             return false;
         }
-        if(total_give % 4 != 0){
+        if((f_wool%4 + f_wood%4 + f_iron%4 + f_rock%4 + f_oats%4) != 0){
             cout << "give an amount divisible by 4" << endl;
             return false;
         }
@@ -81,10 +78,7 @@ namespace ariel {
         addOats(t_oats-f_oats);
         return true;
     }
-    
-    void Player::buyDevelopmentCard(){
-            
-    }
+ 
     void Player::printPoints(){
             
     }
