@@ -160,28 +160,58 @@ namespace ariel {
             cin >> from;
             cin >> to;
             if(from == 0 || to == 0){ return false; }
-            if(from > 0 && from < 55 && to > 0 && to < 55){
-                if(p.getColor() == board.getSpot(from).getOwner() || p.getColor() == board.getSpot(to).getOwner()
-                || (board.getSpot(from).getOwner()!="" && p.getColor() == board.getSpot(from).getOwner().replace(2, 2, "0;"))
-                || (board.getSpot(to).getOwner()!="" && p.getColor() == board.getSpot(to).getOwner().replace(2, 2, "0;"))){
-                    if(board.getSpot(from).closeTo(board.getSpot(to))){
-                        p.builtRoad();
-                        vector<unsigned int> neighbors = this->board.getSpot(from).getNeighbors();
-                        for(unsigned int i=0; i<neighbors.size(); i++){
-                            if(board.getSpot(neighbors[i]) == board.getSpot(to)){
-                                board.getSpot(from).setRoadOwner(p.getColor(), i);
-                            }
-                        }
-                        neighbors = this->board.getSpot(to).getNeighbors();
-                        for(unsigned int i=0; i<neighbors.size(); i++){
-                            if(board.getSpot(neighbors[i]) == board.getSpot(from)){
-                                board.getSpot(to).setRoadOwner(p.getColor(), i);
-                            }
-                        }
+            if(from < 1 || from > 54 || to < 1 || to > 54){
+                cout << "You are out of bounds (1-54)" << endl;
+                continue;
+            }
+            if(!board.getSpot(from).closeTo(board.getSpot(to))){
+                cout << "There's no road between " << from << " and " << to << endl;
+                continue;
+            }
+            if(!board.getSpot(from).closeTo(board.getSpot(to))){
+                cout << "There's no road between " << from << " and " << to << endl;
+                continue;
+            }
+            if(p.getColor() != board.getSpot(from).getOwner() && p.getColor() != board.getSpot(to).getOwner()            // if p doesnt own from or to
+            && (board.getSpot(from).getOwner()=="" || p.getColor() != board.getSpot(from).getOwner().replace(2, 2, "0;"))// neither has a city in from
+            && (board.getSpot(to).getOwner()=="" || p.getColor() != board.getSpot(to).getOwner().replace(2, 2, "0;"))){  // or a city in to
+                vector<string> roads = this->board.getSpot(from).getRoads();
+                bool neighborRoad = false;
+                for(unsigned int i=0; i<roads.size(); i++){
+                    if(roads[i] == p.getColor()){ neighborRoad = true; }
+                }
+                roads = this->board.getSpot(to).getRoads();
+                for(unsigned int i=0; i<roads.size(); i++){
+                    if(roads[i] == p.getColor()){ neighborRoad = true; }
+                }
+                if(!neighborRoad){
+                    cout << "Cant place a road not connected to a settlement/road" << endl; 
+                    continue;
+                }
+            }
+            p.builtRoad();
+            vector<unsigned int> neighbors = this->board.getSpot(from).getNeighbors();
+            bool existingRoad = false;
+            for(unsigned int i=0; i<neighbors.size(); i++){
+                if(board.getSpot(neighbors[i]) == board.getSpot(to)){
+                    if(board.getSpot(from).getRoadOwner(i) != ""){
+                        existingRoad = true;
                         break;
-                    } else{ cout << "There's no road between " << from << " and " << to << endl; }
-                } else{ cout << "Cant place a road not connected to a settlement" << endl; }
-            } else{ cout << "You are out of bounds (1-54)" << endl; }
+                    }
+                    board.getSpot(from).setRoadOwner(p.getColor(), i);
+                }
+            }
+            if(existingRoad){
+                cout << "There's already a road there" << endl;
+                continue;
+            }
+            neighbors = this->board.getSpot(to).getNeighbors();
+            for(unsigned int i=0; i<neighbors.size(); i++){
+                if(board.getSpot(neighbors[i]) == board.getSpot(from)){
+                    board.getSpot(to).setRoadOwner(p.getColor(), i);
+                }
+            }
+            break;
         }
         return true;
     }
@@ -210,16 +240,54 @@ namespace ariel {
             else if(card == "Knight"){ p.addKnights(); }
             else if(card == "Year of Plenty"){ p.addYearOfPlenty(); }
             else if(card == "Road Building"){ p.addRoadBuilding(); }
+            p.addWool(-1);
+            p.addRock(-1);
+            p.addOats(-1);
         } else{ cout << "Not enough resources" << endl; }
     }
     void Catan::useDevelopmentCard(Player& p){
-        string card;
+        string card, choice;
         cout << "what card do you wish to use?" << endl;
-        cin >> card;
-        if(card == "Monopoly"){  }
-        else if(card == "Knight"){  }
-        else if(card == "Year of Plenty"){  }
-        else if(card == "Road Building"){  }
+        cin.ignore();
+        getline(cin, card);
+        if(card == "Monopoly"){
+            cout << "Choose a resource to get (wool/wood/rock/iron/oats)" << endl;
+            cin >> choice;
+            for(unsigned int i=0; i<players.size(); i++){
+                if(p == players[i]){ continue; }
+                if(choice == "wool"){
+                    p.addWool(players[i].getWool());
+                    players[i].addWool(-players[i].getWool());
+                }else if(choice == "wood"){
+                    p.addWood(players[i].getWood());
+                    players[i].addWood(-players[i].getWood());
+                }else if(choice == "rock"){
+                    p.addRock(players[i].getRock());
+                    players[i].addRock(-players[i].getRock());
+                }else if(choice == "iron"){
+                    p.addIron(players[i].getIron());
+                    players[i].addIron(-players[i].getIron());
+                }else if(choice == "oats"){
+                    p.addOats(players[i].getOats());
+                    players[i].addOats(-players[i].getOats());
+                }
+            }
+        }
+        else if(card == "Knight"){
+
+        }
+        else if(card == "Year of Plenty"){
+            cout << "Choose a resource to get (wool/wood/rock/iron/oats)" << endl;
+            cin >> choice;
+            if(choice == "wool"){ p.addWool(2); }
+            else if(choice == "wood"){ p.addWood(2); }
+            else if(choice == "rock"){ p.addRock(2); }
+            else if(choice == "iron"){ p.addIron(2); }
+            else if(choice == "oats"){ p.addOats(2); }
+        }
+        else if(card == "Road Building"){
+
+        }
         else{ cout<< "No such card" << endl; }
     }
 }

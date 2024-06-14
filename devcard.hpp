@@ -18,6 +18,6 @@ namespace ariel {
     public:
         Devcard(string type);
         ~Devcard();
-        
+        void playCard(Player& p);
     };
 }

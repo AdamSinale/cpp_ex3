@@ -27,6 +27,7 @@ namespace ariel {
         Spot();
         ~Spot();
         vector<unsigned int> getNeighbors(){ return neighbors; }
+        vector<string> getRoads(){ return roads; }
         void add_info(vector<string> type, vector<unsigned int> num, vector<unsigned int> neighbors, unsigned int id);
         void setOwner(string color){ this->owner = color; };
         void setRoadOwner(string color, unsigned int i){ this->roads[i] = color; };

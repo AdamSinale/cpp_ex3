@@ -51,8 +51,8 @@ int main()
         catan.placeRoad(players[i]);
         catan.nextTurn();
     }
+    catan.printBoard();
     while(!catan.gotWinner()){
-        catan.printBoard();
         cout << "It's your turn " << players[catan.getTurn()].getColor() << players[catan.getTurn()].getName() << "\033[0m" << endl;
         diceSum = catan.rollDice();
         cout << "The dices rolled " << diceSum << endl;
@@ -101,8 +101,7 @@ int main()
                     catan.buyDevelopmentCard(players[catan.getTurn()]);
                     break;
                 case 7:
-                    // Logic for using a development card
-                    cout << "Use development card functionality." << endl;
+                    catan.useDevelopmentCard(players[catan.getTurn()]);
                     break;
                 case 8:
                     // Placeholder for additional functionality
@@ -118,6 +117,7 @@ int main()
                     cout << "Invalid choice. Please choose a valid option." << endl;
                     break;
             }
+            catan.printBoard();
         }
     }
     
