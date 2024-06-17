@@ -57,7 +57,7 @@ int main()
         diceSum = catan.rollDice();
         cout << "The dices rolled " << diceSum << endl;
         choice = 10;
-        while(choice != 9){
+        while(choice != 9 && !catan.gotWinner()){
             cout << "====================" << endl;
             cout << "You have: " << endl;
             cout << "Wood: " << players[catan.getTurn()].getWood() << endl;

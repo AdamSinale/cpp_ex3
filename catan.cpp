@@ -221,9 +221,34 @@ namespace ariel {
     }
 
     bool Catan::gotWinner(){
+        int maxRoad = 0; unsigned int maxRoadIndex = 0;
+        int maxKnight = 0; unsigned int maxKnightIndex = 0;
+        vector<int> points = {players[0].getPoints(),players[1].getPoints(),players[2].getPoints()};
         for(unsigned int i=0; i < players.size(); i++){
-            if(players[i].getPoints() >= 10){
-                cout << "====================\n" << players[i].getName() << "Won!!!" <<"====================\n" << endl;
+            if(players[i].getRoads() > maxRoad){ 
+                maxRoad = players[i].getRoads(); 
+                maxRoadIndex = i;
+            }
+            if(players[i].getKnights() > maxKnight){ 
+                maxKnight = players[i].getKnights(); 
+                maxKnightIndex = i;
+            }
+        }
+        bool onlyMaxRoad = true; bool onlyMaxKnights = true;
+        for(unsigned int i=0; i < players.size(); i++){
+            if(i != maxRoadIndex && maxRoad == players[i].getRoads()){ 
+                onlyMaxRoad = false;
+            }
+            if(i != maxKnightIndex && maxKnight == players[i].getKnights()){ 
+                onlyMaxKnights = false;
+            }
+        }
+        if(onlyMaxRoad && maxRoad != 0){  points[maxRoadIndex] += 2; }
+        if(onlyMaxKnights && maxKnight >= 3){  points[maxKnightIndex] += 2; }
+        
+        for(unsigned int i=0; i < players.size(); i++){
+            if(points[i] >= 10){
+                cout << "====================\n" << players[i].getName() << " Won!!!\n" <<"====================\n" << endl;
                 return true;
             }
         }
@@ -236,10 +261,10 @@ namespace ariel {
             devcards.pop();
             cout << "You got a " << card << "!" << endl;
             if(card == "Victory Point"){ p.addPoint(); }
-            else if(card == "Monopoly"){ p.addMonopoly(); }
-            else if(card == "Knight"){ p.addKnights(); }
-            else if(card == "Year of Plenty"){ p.addYearOfPlenty(); }
-            else if(card == "Road Building"){ p.addRoadBuilding(); }
+            else if(card == "Monopoly"){ p.addMonopoly(1); }
+            else if(card == "Knight"){ p.addKnights(1); }
+            else if(card == "Year of Plenty"){ p.addYearOfPlenty(1); }
+            else if(card == "Road Building"){ p.addRoadBuilding(1); }
             p.addWool(-1);
             p.addRock(-1);
             p.addOats(-1);
@@ -247,10 +272,11 @@ namespace ariel {
     }
     void Catan::useDevelopmentCard(Player& p){
         string card, choice;
-        cout << "what card do you wish to use?" << endl;
+        cout << "what card do you wish to use? (Knight/Monopoly/Road Building/Year of Plenty)" << endl;
         cin.ignore();
         getline(cin, card);
-        if(card == "Monopoly"){
+        if(card == "0"){ return; }
+        if(card == "Monopoly" && p.getMonopoly() > 0){
             cout << "Choose a resource to get (wool/wood/rock/iron/oats)" << endl;
             cin >> choice;
             for(unsigned int i=0; i<players.size(); i++){
@@ -272,11 +298,13 @@ namespace ariel {
                     players[i].addOats(-players[i].getOats());
                 }
             }
+            p.addMonopoly(-1);
         }
-        else if(card == "Knight"){
+        else if(card == "Knight" && p.getKnights() > 0){
 
+            p.addKnights(-1);
         }
-        else if(card == "Year of Plenty"){
+        else if(card == "Year of Plenty" && p.getYearOfPlenty() > 0){
             cout << "Choose a resource to get (wool/wood/rock/iron/oats)" << endl;
             cin >> choice;
             if(choice == "wool"){ p.addWool(2); }
@@ -284,9 +312,15 @@ namespace ariel {
             else if(choice == "rock"){ p.addRock(2); }
             else if(choice == "iron"){ p.addIron(2); }
             else if(choice == "oats"){ p.addOats(2); }
+            p.addYearOfPlenty(-1);
         }
-        else if(card == "Road Building"){
-
+        else if(card == "Road Building" && p.getRoadBuilding() > 0){
+            p.addWood(2); p.addRock(2);
+            cout << "1st road" << endl;
+            if(!placeRoad(p)){ p.addWood(-2); p.addRock(-2); return; }
+            cout << "2nd road" << endl;
+            while(!placeRoad(p)){ cout << "Can't regret building a 2nd road now" << endl; }
+            p.addRoadBuilding(-1);
         }
         else{ cout<< "No such card" << endl; }
     }

@@ -27,6 +27,7 @@ namespace ariel {
         int wood = 4;
         int rock = 4;
 
+        int roads = 0;
         int points = 0;
 
         int knights = 0;
@@ -49,17 +50,21 @@ namespace ariel {
         void addIron(int a){ iron += a; }
         void addOats(int a){ oats += a; }
         void addPoint(){ points++; }
-        void addMonopoly(){ monopoly++; }
-        void addKnights(){ knights++; }
-        void addYearOfPlenty(){ yearOfPlenty++; }
-        void addRoadBuilding(){ roadBuilding++; }
-        void remoovePoint(){ points--; }
+        void addMonopoly(int a){ monopoly += a; }
+        void addKnights(int a){ knights += a; }
+        void addYearOfPlenty(int a){ yearOfPlenty += a; }
+        void addRoadBuilding(int a){ roadBuilding += a; }
+        int getMonopoly(){ return monopoly; }
+        int getKnights(){ return knights; }
+        int getYearOfPlenty(){ return yearOfPlenty; }
+        int getRoadBuilding(){ return roadBuilding; }
         string getName(){ return name; }
         string getColor(){ return color; }
         int getPoints(){ return points; }
+        int getRoads(){ return roads; }
         bool trade(Player& to);
         bool tradeBank();
-        void builtRoad(){ wood--; rock--; }
+        void builtRoad(){ wood--; rock--; roads++; }
         void builtSettlement(){ wood--; rock--; wool--; oats--; }
         void upgradedCity(){ addOats(-2); addIron(-3); }
         void printPoints();
