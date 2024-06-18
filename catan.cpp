@@ -5,6 +5,7 @@
 
 #define FALSE 0
 #define TRUE 1
+using std::make_unique;
 
 namespace ariel {
 
@@ -12,14 +13,27 @@ namespace ariel {
         this->players = {pl1,pl2,pl3};
         board = Board();
 
-        vector<string> cards = {"Monopoly","Monopoly","Year of Plenty","Year of Plenty","Road Building","Road Building",
-        "Victory Point","Victory Point","Victory Point","Victory Point","Victory Point","Knight","Knight","Knight","Knight",
-        "Knight","Knight","Knight","Knight","Knight","Knight","Knight","Knight","Knight","Knight"};
+        vector<unique_ptr<Devcard>> cards;
+        cards.push_back(make_unique<Monopoly>());
+        cards.push_back(make_unique<Monopoly>());
+        cards.push_back(make_unique<YearOfPlenty>());
+        cards.push_back(make_unique<YearOfPlenty>());
+        cards.push_back(make_unique<RoadBuilding>());
+        cards.push_back(make_unique<RoadBuilding>());
+        cards.push_back(make_unique<VictoryPoint>());
+        cards.push_back(make_unique<VictoryPoint>());
+        cards.push_back(make_unique<VictoryPoint>());
+        cards.push_back(make_unique<VictoryPoint>());
+        cards.push_back(make_unique<VictoryPoint>());
+        for (int i = 0; i < 14; ++i) {
+            cards.push_back(make_unique<Knight>());
+        }
+        // Shuffle the devcards
         unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
         std::shuffle(cards.begin(), cards.end(), std::default_random_engine(seed));
-
-        for (const auto& card : cards) {
-            this->devcards.push(card);
+        // Transfer ownership of shuffled cards to devcards vector
+        for (auto& card : cards) {
+            this->devcards.push(std::move(card));
         }
     }
     Catan::~Catan(){}
@@ -248,7 +262,6 @@ namespace ariel {
         
         for(unsigned int i=0; i < players.size(); i++){
             if(points[i] >= 10){
-                cout << "====================\n" << players[i].getName() << " Won!!!\n" <<"====================\n" << endl;
                 return true;
             }
         }
@@ -256,72 +269,42 @@ namespace ariel {
     }
    
     void Catan::buyDevelopmentCard(Player& p){
+        if (this->devcards.empty()) {
+            cout << "No development cards left to draw!" << endl;
+            return;
+        }
         if(p.getOats() > 0 && p.getWool() > 0 && p.getRock() > 0){
-            string card = devcards.top();
+            unique_ptr<Devcard> card = std::move(this->devcards.top());
             devcards.pop();
-            cout << "You got a " << card << "!" << endl;
-            if(card == "Victory Point"){ p.addPoint(); }
-            else if(card == "Monopoly"){ p.addMonopoly(1); }
-            else if(card == "Knight"){ p.addKnights(1); }
-            else if(card == "Year of Plenty"){ p.addYearOfPlenty(1); }
-            else if(card == "Road Building"){ p.addRoadBuilding(1); }
+            cout << "You got a " << card->getType() << "!" << endl;
+            if(card->getType() == "Victory Point"){ card->playCard(p, *this); }
+            else if(card->getType() == "Knight"){ p.addKnights(1); }
+            else if(card->getType() == "Monopoly"){ p.addMonopoly(1); }
+            else if(card->getType() == "Year of Plenty"){ p.addYearOfPlenty(1); }
+            else if(card->getType() == "Road Building"){ p.addRoadBuilding(1); }
             p.addWool(-1);
             p.addRock(-1);
             p.addOats(-1);
         } else{ cout << "Not enough resources" << endl; }
     }
     void Catan::useDevelopmentCard(Player& p){
-        string card, choice;
+        string cardName, choice;
         cout << "what card do you wish to use? (Knight/Monopoly/Road Building/Year of Plenty)" << endl;
         cin.ignore();
-        getline(cin, card);
-        if(card == "0"){ return; }
-        if(card == "Monopoly" && p.getMonopoly() > 0){
-            cout << "Choose a resource to get (wool/wood/rock/iron/oats)" << endl;
-            cin >> choice;
-            for(unsigned int i=0; i<players.size(); i++){
-                if(p == players[i]){ continue; }
-                if(choice == "wool"){
-                    p.addWool(players[i].getWool());
-                    players[i].addWool(-players[i].getWool());
-                }else if(choice == "wood"){
-                    p.addWood(players[i].getWood());
-                    players[i].addWood(-players[i].getWood());
-                }else if(choice == "rock"){
-                    p.addRock(players[i].getRock());
-                    players[i].addRock(-players[i].getRock());
-                }else if(choice == "iron"){
-                    p.addIron(players[i].getIron());
-                    players[i].addIron(-players[i].getIron());
-                }else if(choice == "oats"){
-                    p.addOats(players[i].getOats());
-                    players[i].addOats(-players[i].getOats());
-                }
-            }
-            p.addMonopoly(-1);
+        getline(cin, cardName);
+        if(cardName == "0"){ return; }
+        if(cardName == "Monopoly" && p.getMonopoly() > 0){
+            Monopoly().playCard(p,*this);
         }
-        else if(card == "Knight" && p.getKnights() > 0){
-
-            p.addKnights(-1);
+        else if(cardName == "Knight" && p.getKnights() > 0){
+            Knight().playCard(p,*this);
         }
-        else if(card == "Year of Plenty" && p.getYearOfPlenty() > 0){
-            cout << "Choose a resource to get (wool/wood/rock/iron/oats)" << endl;
-            cin >> choice;
-            if(choice == "wool"){ p.addWool(2); }
-            else if(choice == "wood"){ p.addWood(2); }
-            else if(choice == "rock"){ p.addRock(2); }
-            else if(choice == "iron"){ p.addIron(2); }
-            else if(choice == "oats"){ p.addOats(2); }
-            p.addYearOfPlenty(-1);
+        else if(cardName == "Year of Plenty" && p.getYearOfPlenty() > 0){
+            YearOfPlenty().playCard(p,*this);
         }
-        else if(card == "Road Building" && p.getRoadBuilding() > 0){
-            p.addWood(2); p.addRock(2);
-            cout << "1st road" << endl;
-            if(!placeRoad(p)){ p.addWood(-2); p.addRock(-2); return; }
-            cout << "2nd road" << endl;
-            while(!placeRoad(p)){ cout << "Can't regret building a 2nd road now" << endl; }
-            p.addRoadBuilding(-1);
+        else if(cardName == "Road Building" && p.getRoadBuilding() > 0){
+            RoadBuilding().playCard(p,*this);
         }
-        else{ cout<< "No such card" << endl; }
+        else{ cout<< "No such card" << endl; return;}
     }
 }

@@ -2,9 +2,9 @@
 # MAIL: adam.sinale@gmail.com
 
 CC=g++
-FLAGS=-std=c++11 -Werror -Wsign-conversion
+FLAGS=-std=c++14 -Werror -Wsign-conversion
 
-CPPs = catan.cpp board.cpp player.cpp spot.cpp
+CPPs = catan.cpp board.cpp player.cpp spot.cpp devcard.cpp
 OBJECTS=$(subst .cpp,.o,$(CPPs))
 
 run: demo

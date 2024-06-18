@@ -11,8 +11,13 @@
 #include <iostream>
 #include <string>
 #include <stack>
+#include <memory>
+#include <random>
+#include <chrono>
+#include <algorithm>
 
 using std::stack;
+using std::unique_ptr;
 
 namespace ariel {
     class Catan {
@@ -20,12 +25,13 @@ namespace ariel {
         vector<Player> players;
         unsigned int turn = 0;
         Board board;
-        stack<string> devcards;
+        stack<unique_ptr<Devcard>> devcards; 
 
     public:
         Catan(Player& p1, Player& p2, Player& p3);
         ~Catan();
         vector<Player>& ChooseStartingPlayer();
+        vector<Player> getPlayers(){ return players; }
         unsigned int getTurn(){ return turn; }
         int rollDice();
         void nextTurn();

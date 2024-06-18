@@ -8,7 +8,7 @@ a b c 52 52 49 53 53 50 54 54 51 47 47 51 46 46 50 45 45 49 9 9 9 9 9 9 9 9 9 9 
 #include <vector>
 #include "catan.hpp"
 #include "player.hpp"
-#include "board.hpp"
+
 using namespace std;
 using namespace ariel;
 
@@ -121,4 +121,5 @@ int main()
         }
     }
     
+    cout << "====================\n" << players[catan.getTurn()].getName() << " Won!!!\n" <<"====================\n" << endl;
 }
