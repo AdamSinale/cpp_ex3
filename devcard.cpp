@@ -45,26 +45,26 @@ namespace ariel {
     Monopoly::Monopoly() : Devcard("Monopoly") {}
     void Monopoly::playCard(Player& p, Catan& c) {
         string choice;
-        vector<Player> players = c.getPlayers();
+        vector<Player*> players = c.getPlayers();
         cout << "Choose a resource to get (wool/wood/rock/iron/oats)" << endl;
         cin >> choice;
-        for(unsigned int i=0; i<players.size(); i++){
-            if(p == players[i]){ continue; }
-            if(choice == "wool"){
-                p.addWool(players[i].getWool());
-                players[i].addWool(-players[i].getWool());
-            }else if(choice == "wood"){
-                p.addWood(players[i].getWood());
-                players[i].addWood(-players[i].getWood());
-            }else if(choice == "rock"){
-                p.addRock(players[i].getRock());
-                players[i].addRock(-players[i].getRock());
-            }else if(choice == "iron"){
-                p.addIron(players[i].getIron());
-                players[i].addIron(-players[i].getIron());
-            }else if(choice == "oats"){
-                p.addOats(players[i].getOats());
-                players[i].addOats(-players[i].getOats());
+        for (Player* player : players) {
+            if (p == *player) continue;
+            if (choice == "wool") {
+                p.addWool(player->getWool());
+                player->addWool(-player->getWool());
+            } else if (choice == "wood") {
+                p.addWood(player->getWood());
+                player->addWood(-player->getWood());
+            } else if (choice == "rock") {
+                p.addRock(player->getRock());
+                player->addRock(-player->getRock());
+            } else if (choice == "iron") {
+                p.addIron(player->getIron());
+                player->addIron(-player->getIron());
+            } else if (choice == "oats") {
+                p.addOats(player->getOats());
+                player->addOats(-player->getOats());
             }
         }
         p.addMonopoly(-1);

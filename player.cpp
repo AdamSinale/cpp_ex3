@@ -27,7 +27,7 @@ namespace ariel {
         cout << "How many rock you want to get?" << endl; cin >> t_rock;
         cout << "How many oats you want to get?" << endl; cin >> t_oats;
         if(f_wool>this->wool || f_wood>this->wood || f_iron>this->iron || f_rock>this->rock || f_oats>this->oats
-        || t_wool>to.getWool() || t_wool>to.getWood() || t_wool>to.getIron() || t_wool>to.getRock() || t_wool>to.getOats()){
+        || t_wool>to.getWool() || t_wood>to.getWood() || t_iron>to.getIron() || t_rock>to.getRock() || t_oats>to.getOats()){
             return false;
         }
         cout << to.getColor() << to.getName() << "\033[0m" << ", do you want to give " << t_wool << " wool, " << t_wood << " wood, " << t_iron << " iron, " << t_rock << " rock, " << t_oats << " oats for "
@@ -80,6 +80,6 @@ namespace ariel {
     }
  
     void Player::printPoints(){
-            
+        cout << this->points << endl;
     }
 }

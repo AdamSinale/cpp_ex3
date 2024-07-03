@@ -10,7 +10,7 @@ using std::make_unique;
 namespace ariel {
 
     Catan::Catan(Player& pl1, Player& pl2, Player& pl3){
-        this->players = {pl1,pl2,pl3};
+        this->players = {&pl1,&pl2,&pl3};
         board = Board();
 
         vector<unique_ptr<Devcard>> cards;
@@ -38,17 +38,17 @@ namespace ariel {
     }
     Catan::~Catan(){}
     
-    vector<Player>& Catan::ChooseStartingPlayer(){
+    vector<Player*> Catan::ChooseStartingPlayer(){
         unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
         std::shuffle(players.begin(), players.end(), std::default_random_engine(seed));
         this->turn = 0;
-        cout << "The starting player is " << players[turn].getName() << "\n" << endl;
-        return this->players;
+        cout << "The starting player is " << players[turn]->getName() << "\n" << endl;
+        return players;
     }
     
     void Catan::nextTurn(){
         this->turn = (this->turn + 1) % 3;
-        cout << "It's your turn now " << players[turn].getName() << "\n" << endl;
+        cout << "It's your turn now " << players[turn]->getName() << "\n" << endl;
     }
     
     int Catan::rollDice(){
@@ -58,12 +58,12 @@ namespace ariel {
             string typeWithNum = board.getSpot(i).diceInSpot(result);
             if(typeWithNum!="0"){
                 for(unsigned int p=0; p<players.size(); p++){
-                    if(board.getSpot(i).getOwner() == players[p].getColor()){
-                        if(typeWithNum == "Wood"){ players[p].addWood(1); }
-                        if(typeWithNum == "Rock"){ players[p].addRock(1); }
-                        if(typeWithNum == "Wool"){ players[p].addWool(1); }
-                        if(typeWithNum == "Iron"){ players[p].addIron(1); }
-                        if(typeWithNum == "Oats"){ players[p].addOats(1); }
+                    if(board.getSpot(i).getOwner() == players[p]->getColor()){
+                        if(typeWithNum == "Wood"){ players[p]->addWood(1); }
+                        if(typeWithNum == "Rock"){ players[p]->addRock(1); }
+                        if(typeWithNum == "Wool"){ players[p]->addWool(1); }
+                        if(typeWithNum == "Iron"){ players[p]->addIron(1); }
+                        if(typeWithNum == "Oats"){ players[p]->addOats(1); }
                     }
                 }
             }
@@ -72,9 +72,9 @@ namespace ariel {
     }
 
     bool Catan::placeSettlement(Player& p){
-        if(players[turn] != p){
+        if(*players[turn] != p){
             cout << "Wait your turn " << p.getName() << endl;
-            cout << "It's your turn " << players[turn].getName() << endl;
+            cout << "It's your turn " << players[turn]->getName() << endl;
             return false;
         }
         if(p.getWood() < 1 || p.getRock() < 1 || p.getOats() < 1 || p.getWool() < 1){
@@ -107,9 +107,9 @@ namespace ariel {
     }
     
     bool Catan::upgradeSettlement(Player& p){
-        if(players[turn] != p){
+        if(*players[turn] != p){
             cout << "Wait your turn " << p.getName() << endl;
-            cout << "It's your turn " << players[turn].getName() << endl;
+            cout << "It's your turn " << players[turn]->getName() << endl;
             return false;
         }
         if(p.getIron() < 3 || p.getOats() < 2){
@@ -124,7 +124,7 @@ namespace ariel {
             if(spot > 0 && spot < 55){
                 if(board.getSpot(spot).getOwner() == p.getColor()){
                     break;
-                } else{ cout << "Not yours to upgrade" << endl;}
+                } else{ cout << "Not yours to upgrade/already did" << endl;}
             } else { cout << "You are out of bounds (1-54)" << endl; }
         }
         p.upgradedCity();
@@ -135,9 +135,9 @@ namespace ariel {
     }
 
     bool Catan::trade(Player& p){
-        if(players[turn] != p){
+        if(*players[turn] != p){
             cout << "Wait your turn " << p.getName() << endl;
-            cout << "It's your turn " << players[turn].getName() << endl;
+            cout << "It's your turn " << players[turn]->getName() << endl;
             return false;
         }
         string name;
@@ -145,8 +145,8 @@ namespace ariel {
             cin >> name;
             if(name == "0"){ break; }
             for(unsigned int i=0; i<players.size(); i++){
-                if(players[i].getName() == name && players[i] != p){}{
-                    if(p.trade(players[i])){ 
+                if(players[i]->getName() == name && *players[i] != p){}{
+                    if(p.trade(*players[i])){ 
                         cout << "Successfully traded." << endl;
                         return true;
                     }
@@ -160,9 +160,9 @@ namespace ariel {
     }
 
     bool Catan::placeRoad(Player& p){
-        if(players[turn] != p){
+        if(*players[turn] != p){
             cout << "Wait your turn " << p.getName() << endl;
-            cout << "It's your turn " << players[turn].getName() << endl;
+            cout << "It's your turn " << players[turn]->getName() << endl;
             return false;
         }
         if(p.getWood() < 1 || p.getRock() < 1){
@@ -237,23 +237,23 @@ namespace ariel {
     bool Catan::gotWinner(){
         int maxRoad = 0; unsigned int maxRoadIndex = 0;
         int maxKnight = 0; unsigned int maxKnightIndex = 0;
-        vector<int> points = {players[0].getPoints(),players[1].getPoints(),players[2].getPoints()};
+        vector<int> points = {players[0]->getPoints(),players[1]->getPoints(),players[2]->getPoints()};
         for(unsigned int i=0; i < players.size(); i++){
-            if(players[i].getRoads() > maxRoad){ 
-                maxRoad = players[i].getRoads(); 
+            if(players[i]->getRoads() > maxRoad){ 
+                maxRoad = players[i]->getRoads(); 
                 maxRoadIndex = i;
             }
-            if(players[i].getKnights() > maxKnight){ 
-                maxKnight = players[i].getKnights(); 
+            if(players[i]->getKnights() > maxKnight){ 
+                maxKnight = players[i]->getKnights(); 
                 maxKnightIndex = i;
             }
         }
         bool onlyMaxRoad = true; bool onlyMaxKnights = true;
         for(unsigned int i=0; i < players.size(); i++){
-            if(i != maxRoadIndex && maxRoad == players[i].getRoads()){ 
+            if(i != maxRoadIndex && maxRoad == players[i]->getRoads()){ 
                 onlyMaxRoad = false;
             }
-            if(i != maxKnightIndex && maxKnight == players[i].getKnights()){ 
+            if(i != maxKnightIndex && maxKnight == players[i]->getKnights()){ 
                 onlyMaxKnights = false;
             }
         }
@@ -268,10 +268,10 @@ namespace ariel {
         return false;
     }
    
-    void Catan::buyDevelopmentCard(Player& p){
+    bool Catan::buyDevelopmentCard(Player& p){
         if (this->devcards.empty()) {
             cout << "No development cards left to draw!" << endl;
-            return;
+            return false;
         }
         if(p.getOats() > 0 && p.getWool() > 0 && p.getRock() > 0){
             unique_ptr<Devcard> card = std::move(this->devcards.top());
@@ -285,7 +285,8 @@ namespace ariel {
             p.addWool(-1);
             p.addRock(-1);
             p.addOats(-1);
-        } else{ cout << "Not enough resources" << endl; }
+        } else{ cout << "Not enough resources" << endl; return false; }
+        return true;
     }
     void Catan::useDevelopmentCard(Player& p){
         string cardName, choice;

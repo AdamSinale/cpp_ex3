@@ -22,7 +22,7 @@ using std::unique_ptr;
 namespace ariel {
     class Catan {
     private:
-        vector<Player> players;
+        vector<Player*> players;
         unsigned int turn = 0;
         Board board;
         stack<unique_ptr<Devcard>> devcards; 
@@ -30,8 +30,8 @@ namespace ariel {
     public:
         Catan(Player& p1, Player& p2, Player& p3);
         ~Catan();
-        vector<Player>& ChooseStartingPlayer();
-        vector<Player> getPlayers(){ return players; }
+        vector<Player*> ChooseStartingPlayer();
+        vector<Player*> getPlayers(){ return this->players; }
         unsigned int getTurn(){ return turn; }
         int rollDice();
         void nextTurn();
@@ -41,7 +41,7 @@ namespace ariel {
         bool placeRoad(Player& p);
         void printBoard();
         bool gotWinner();
-        void buyDevelopmentCard(Player& p);
+        bool buyDevelopmentCard(Player& p);
         void useDevelopmentCard(Player& p);
     };
 }

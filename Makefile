@@ -2,22 +2,29 @@
 # MAIL: adam.sinale@gmail.com
 
 CC=g++
-FLAGS=-std=c++14 -Werror -Wsign-conversion
+FLAGS=-std=c++14 -Werror -Wsign-conversion -Wall -Wextra -std=c++11
 
-CPPs = catan.cpp board.cpp player.cpp spot.cpp devcard.cpp
-OBJECTS=$(subst .cpp,.o,$(CPPs))
+# Source files and object files
+SRCS := $(wildcard *.cpp)
+OBJS := $(SRCS:.cpp=.o)
 
-run: demo
-	./$^
+# Target executable
+TARGET := catan
 
-demo: Demo.o $(filter-out Test.o, $(OBJECTS))
-	$(CC) $(FLAGS) $^ -o demo
+# Default target
+all: $(TARGET)
 
-# test: TestCounter.o Test.o $(filter-out Demo.o, $(OBJECTS))
-# 	$(CC) $(FLAGS) $^ -o test
-
+test: $(TARGET)
+	./$(TARGET) test
+	
+# Compile source files into object files
 %.o: %.cpp
-	$(CC) $(FLAGS) --compile $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
+# Link object files into the executable
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) $^ -o $@
+
+# Clean up object files and the executable
 clean:
-	rm -f *.o demo test
+	rm -f $(OBJS) $(TARGET)
